@@ -30,15 +30,15 @@
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.archivoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.herramientasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.reportesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.generarReportesDeErrorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cargarThompsonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.guardarTokensToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.guardarErroresToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.abrirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.guardarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nuevaPestañaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.herramientasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cargarThompsonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.guardarTokensToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.guardarErroresToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reportesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.generarReportesDeErrorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -66,6 +66,26 @@
             this.archivoToolStripMenuItem.Size = new System.Drawing.Size(73, 24);
             this.archivoToolStripMenuItem.Text = "Archivo";
             // 
+            // abrirToolStripMenuItem
+            // 
+            this.abrirToolStripMenuItem.Name = "abrirToolStripMenuItem";
+            this.abrirToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.abrirToolStripMenuItem.Text = "Abrir";
+            this.abrirToolStripMenuItem.Click += new System.EventHandler(this.abrirToolStripMenuItem_Click);
+            // 
+            // guardarToolStripMenuItem
+            // 
+            this.guardarToolStripMenuItem.Name = "guardarToolStripMenuItem";
+            this.guardarToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.guardarToolStripMenuItem.Text = "Guardar";
+            // 
+            // nuevaPestañaToolStripMenuItem
+            // 
+            this.nuevaPestañaToolStripMenuItem.Name = "nuevaPestañaToolStripMenuItem";
+            this.nuevaPestañaToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.nuevaPestañaToolStripMenuItem.Text = "Nueva Pestaña";
+            this.nuevaPestañaToolStripMenuItem.Click += new System.EventHandler(this.nuevaPestañaToolStripMenuItem_Click);
+            // 
             // herramientasToolStripMenuItem
             // 
             this.herramientasToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -75,6 +95,24 @@
             this.herramientasToolStripMenuItem.Name = "herramientasToolStripMenuItem";
             this.herramientasToolStripMenuItem.Size = new System.Drawing.Size(112, 24);
             this.herramientasToolStripMenuItem.Text = "Herramientas";
+            // 
+            // cargarThompsonToolStripMenuItem
+            // 
+            this.cargarThompsonToolStripMenuItem.Name = "cargarThompsonToolStripMenuItem";
+            this.cargarThompsonToolStripMenuItem.Size = new System.Drawing.Size(210, 26);
+            this.cargarThompsonToolStripMenuItem.Text = "Cargar Thompson";
+            // 
+            // guardarTokensToolStripMenuItem
+            // 
+            this.guardarTokensToolStripMenuItem.Name = "guardarTokensToolStripMenuItem";
+            this.guardarTokensToolStripMenuItem.Size = new System.Drawing.Size(210, 26);
+            this.guardarTokensToolStripMenuItem.Text = "Guardar Tokens";
+            // 
+            // guardarErroresToolStripMenuItem
+            // 
+            this.guardarErroresToolStripMenuItem.Name = "guardarErroresToolStripMenuItem";
+            this.guardarErroresToolStripMenuItem.Size = new System.Drawing.Size(210, 26);
+            this.guardarErroresToolStripMenuItem.Text = "Guardar Errores";
             // 
             // reportesToolStripMenuItem
             // 
@@ -89,43 +127,6 @@
             this.generarReportesDeErrorToolStripMenuItem.Name = "generarReportesDeErrorToolStripMenuItem";
             this.generarReportesDeErrorToolStripMenuItem.Size = new System.Drawing.Size(264, 26);
             this.generarReportesDeErrorToolStripMenuItem.Text = "Generar Reportes de Error";
-            // 
-            // cargarThompsonToolStripMenuItem
-            // 
-            this.cargarThompsonToolStripMenuItem.Name = "cargarThompsonToolStripMenuItem";
-            this.cargarThompsonToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.cargarThompsonToolStripMenuItem.Text = "Cargar Thompson";
-            // 
-            // guardarTokensToolStripMenuItem
-            // 
-            this.guardarTokensToolStripMenuItem.Name = "guardarTokensToolStripMenuItem";
-            this.guardarTokensToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.guardarTokensToolStripMenuItem.Text = "Guardar Tokens";
-            // 
-            // guardarErroresToolStripMenuItem
-            // 
-            this.guardarErroresToolStripMenuItem.Name = "guardarErroresToolStripMenuItem";
-            this.guardarErroresToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.guardarErroresToolStripMenuItem.Text = "Guardar Errores";
-            // 
-            // abrirToolStripMenuItem
-            // 
-            this.abrirToolStripMenuItem.Name = "abrirToolStripMenuItem";
-            this.abrirToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.abrirToolStripMenuItem.Text = "Abrir";
-            // 
-            // guardarToolStripMenuItem
-            // 
-            this.guardarToolStripMenuItem.Name = "guardarToolStripMenuItem";
-            this.guardarToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.guardarToolStripMenuItem.Text = "Guardar";
-            // 
-            // nuevaPestañaToolStripMenuItem
-            // 
-            this.nuevaPestañaToolStripMenuItem.Name = "nuevaPestañaToolStripMenuItem";
-            this.nuevaPestañaToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.nuevaPestañaToolStripMenuItem.Text = "Nueva Pestaña";
-            this.nuevaPestañaToolStripMenuItem.Click += new System.EventHandler(this.nuevaPestañaToolStripMenuItem_Click);
             // 
             // tabControl1
             // 
