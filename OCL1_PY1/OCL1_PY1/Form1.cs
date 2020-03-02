@@ -76,5 +76,20 @@ namespace OCL1_PY1
             Path.GetFileName(open.FileName);
 
         }
+
+        //---------------------------------------GUARDAR------------------------------------
+        private void guardarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog save = new SaveFileDialog();
+            save.Filter = "er| *.er";
+            if(save.ShowDialog() == System.Windows.Forms.DialogResult.OK && save.FileName.Length > 0)
+            {
+                rtbx.SaveFile(save.FileName, RichTextBoxStreamType.PlainText);
+                TabPage PAGE = tabControl1.TabPages[tabControl1.SelectedIndex];
+                RichTextBox rtext = (RichTextBox)PAGE.Controls[0];
+                MessageBox.Show("Guardado \n" + save.FileName);
+                System.IO.File.WriteAllText(save.FileName, rtext.Text);
+            }
+        }
     }
 }
