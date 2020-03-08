@@ -16,6 +16,9 @@ namespace OCL1_PY1
     {
         OpenFileDialog open = new OpenFileDialog();
         RichTextBox rtbx = new RichTextBox();
+        List<Tokens> ultimos_lexemas;
+        List<Tokens> ultimos_errores;
+        
         int pestaña = 0;
         public Form1()
         {
@@ -91,5 +94,43 @@ namespace OCL1_PY1
                 System.IO.File.WriteAllText(save.FileName, rtext.Text);
             }
         }
+
+        private void analizarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(tabControl1.TabCount >= 1)
+            {
+                ultimos_lexemas = new List<Tokens>();
+                ultimos_errores = new List<Tokens>();
+
+                TabPage myPage = tabControl1.TabPages[tabControl1.SelectedIndex];
+                RichTextBox myRich = (RichTextBox)myPage.Controls[0];
+
+                Scanner scan = new Scanner();
+                scan.Scaning(myRich.Text);
+
+                ultimos_errores = (List<Tokens>)scan.error_list;
+                ultimos_lexemas = (List<Tokens>)scan.list_Tokens;
+                MessageBox.Show("ANALISIS REALIZADO");
+
+                Console.WriteLine("LISTADO DE TOKENS");
+                Console.WriteLine("**********************");
+                foreach(Tokens t in ultimos_lexemas)
+                {
+                    Console.WriteLine(t.Value + " || LINEA : " + t.linea + " || COLUMNA : " + t.columna);
+                }
+                Console.WriteLine("ERRORES ENCONTRADOS ");
+                Console.WriteLine("...--...--...--...--..");
+                foreach(Tokens t in ultimos_errores)
+                {
+                    Console.WriteLine(t.Value + " || LINEA : " + t.linea + " || COLUMNA : " + t.columna);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Cree más Pestañas", "Word", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+            }
+
+        }
+
     }
 }
