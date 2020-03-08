@@ -116,12 +116,17 @@ namespace OCL1_PY1
                 Console.WriteLine("**********************");
                 foreach(Tokens t in ultimos_lexemas)
                 {
+
+                    Console.WriteLine("entro aqui en lexemas");
                     Console.WriteLine(t.Value + " || LINEA : " + t.linea + " || COLUMNA : " + t.columna);
+
+                    Console.WriteLine("se supone que entra lexema");
                 }
                 Console.WriteLine("ERRORES ENCONTRADOS ");
                 Console.WriteLine("...--...--...--...--..");
                 foreach(Tokens t in ultimos_errores)
                 {
+                    Console.WriteLine("entro aqui en errores");
                     Console.WriteLine(t.Value + " || LINEA : " + t.linea + " || COLUMNA : " + t.columna);
                 }
             }
