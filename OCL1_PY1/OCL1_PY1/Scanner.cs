@@ -55,14 +55,14 @@ namespace OCL1_PY1
                             Status_Flag = 2;
                             auxiliar += entrada[i];
                         }
-                        else if (a == 97)
-                        {//a
-                            Status_Flag = 4;
+                        else if (a == 42)
+                        {//*
+                            Status_Flag = 9;
                             auxiliar += entrada[i];
                         }
-                        else if (a == 69)
-                        {//E
-                            Status_Flag = 5;
+                        else if (a == 43)
+                        {//+
+                            Status_Flag = 9;
                             auxiliar += entrada[i];
                         }
                         else if (((a >= 100 && a <= 113) || (a >= 65 && a <= 90) || (a >= 115 && a <= 122)) && a != 109 && a != 77)
@@ -70,29 +70,69 @@ namespace OCL1_PY1
                             Status_Flag = 6;
                             auxiliar += entrada[i];
                         }
-                        else if (a == 114)
-                        {//r
-                            Status_Flag = 7;
-                            auxiliar += entrada[i];
-                        }
-                        else if (a == 77)
-                        {//M
-                            Status_Flag = 8;
-                            auxiliar += entrada[i];
-                        }
-                        else if (a == 109)
-                        {//m
+                        else if (a == 44)
+                        {//,
                             Status_Flag = 9;
                             auxiliar += entrada[i];
                         }
-                        else if (a == 99)
-                        {//c
-                            Status_Flag = 10;
+                        else if (a == 46)
+                        {//.
+                            Status_Flag = 9;
                             auxiliar += entrada[i];
                         }
-                        else if (a == 34)
-                        {//"
-                            Status_Flag = 11;
+                        else if (a == 59)
+                        {//;
+                            Status_Flag = 9;
+                            auxiliar += entrada[i];
+                        }
+                        else if (a == 63)
+                        {//?
+                            Status_Flag = 9;
+                            auxiliar += entrada[i];
+                        }
+                        else if (a == 123)
+                        {//{
+                            Status_Flag = 9;
+                            auxiliar += entrada[i];
+                        }
+                        else if (a == 124)
+                        {// |
+                            Status_Flag = 9;
+                            auxiliar += entrada[i];
+                        }
+                        else if (a == 125)
+                        {// }
+                            Status_Flag = 9;
+                            auxiliar += entrada[i];
+                        }
+                        else if (a == 126)
+                        {//~
+                            Status_Flag = 9;
+                            auxiliar += entrada[i];
+                        } 
+                        else if (a== 34)
+                        {// "
+                            Status_Flag = 9;
+                            auxiliar += entrada[i];
+                        }
+                        else if (a == 45)
+                        {// -
+                            Status_Flag = 5;
+                            auxiliar += entrada[i];
+                        }
+                        else if (a == 91)
+                        {// [
+                            Status_Flag = 6;
+                            auxiliar += entrada[i];
+                        }
+                        else if (a == 58)
+                        {//:
+                            Status_Flag = 7;
+                            auxiliar += entrada[i];
+                        }
+                        else if (a == 37)
+                        {
+                            Status_Flag = 14;
                             auxiliar += entrada[i];
                         }
                         else
@@ -103,6 +143,7 @@ namespace OCL1_PY1
                             Status_Flag = 0;
                         }
                         break;
+                    #region
                     case 1:
                         int a1 = (int)entrada[i];
                         if (a1 == 47)
@@ -135,7 +176,7 @@ namespace OCL1_PY1
                             Status_Flag = 0;
                         }
                         break;
-
+                    
                     case 3:
                         int a3 = (int)entrada[i];
                         if (a3 == 108)
@@ -151,7 +192,7 @@ namespace OCL1_PY1
                             Status_Flag = 0;
                         }
                         break;
-
+                    
                     case 4:
                         int a4 = (int)entrada[i];
                         if (a4 == 79)
@@ -167,12 +208,12 @@ namespace OCL1_PY1
                             Status_Flag = 0;
                         }
                         break;
-
+                    
                     case 5:
                         int a5 = (int)entrada[i];
-                        if (a5 == 106)
-                        {//j
-                            Status_Flag = 17;
+                        if (a5 == 62)
+                        {//>
+                            Status_Flag = 9;
                             auxiliar += entrada[i];
                         }
                         else
@@ -183,21 +224,13 @@ namespace OCL1_PY1
                             Status_Flag = 0;
                         }
                         break;
-
+                    #endregion
                     case 6:
                         int a6 = (int)entrada[i];
-                        if ((a6 >= 97 && a6 <= 122) || (a6 >= 65 && a6 <= 90) || (a6 >= 48 && a6 <= 57) || a6 == 95)
-                        {
-                            Status_Flag = 6;
+                        if (a6 == 58)
+                        {//:
+                            Status_Flag = 9;
                             auxiliar += entrada[i];
-                        }
-                        else if ((a6 >= 97 && a6 <= 122) || (a6 >= 65 && a6 <= 90) || (a6 >= 48 && a6 <= 57) || a6 == 95)
-                        {//Caracteres de a-z o A-Z o 0-9 
-                            i = i - 1;
-                           // list_Tokens.Add(new Tokens(Tokens_T.Nombre, auxiliar, Saltos, Columnas));
-                            //  nombre = new Tokens(Tokens_T.Nombre, auxiliar, Saltos, Columnas);
-                            auxiliar = "";
-                            Status_Flag = 0;
                         }
                         else
                         {
@@ -211,9 +244,9 @@ namespace OCL1_PY1
 
                     case 7:
                         int a7 = (int)entrada[i];
-                        if (a7 == 101)
-                        {//e
-                            Status_Flag = 18;
+                        if (a7 == 93)
+                        {//]
+                            Status_Flag = 9;
                             auxiliar += entrada[i];
                         }
                         else
@@ -249,6 +282,115 @@ namespace OCL1_PY1
                             auxiliar = "";
                             Status_Flag = 0;
                         }
+                        else if (auxiliar.Equals("*"))
+                        {
+
+                            i = i - 1;
+                            list_Tokens.Add(new Tokens(Tokens_T.Cero_o_mas, auxiliar, Saltos, Columnas));
+                            auxiliar = "";
+                            Status_Flag = 0;
+                        } 
+                        else if (auxiliar.Equals("+"))
+                        {
+                            i = i - 1;
+                            list_Tokens.Add(new Tokens(Tokens_T.Una_o_mas, auxiliar, Saltos, Columnas));
+                            auxiliar = "";
+                            Status_Flag = 0;
+                        }
+                        else if (auxiliar.Equals(","))
+                        {
+                            i = i - 1;
+                            list_Tokens.Add(new Tokens(Tokens_T.Coma, auxiliar, Saltos, Columnas));
+                            auxiliar = "";
+                            Status_Flag = 0;
+                        }
+                        else if (auxiliar.Equals("."))
+                        {
+                            i = i - 1;
+                            list_Tokens.Add(new Tokens(Tokens_T.Concatenación, auxiliar, Saltos, Columnas));
+                            auxiliar = "";
+                            Status_Flag = 0;
+                        }
+                        else if (auxiliar.Equals(";"))
+                        {
+                            i = i - 1;
+                            list_Tokens.Add(new Tokens(Tokens_T.Punto_Coma, auxiliar, Saltos, Columnas));
+                            auxiliar = "";
+                            Status_Flag = 0;
+                        }
+                        else if (auxiliar.Equals("?"))
+                        {
+                            i = i - 1;
+                            list_Tokens.Add(new Tokens(Tokens_T.Cero_o_1, auxiliar, Saltos, Columnas));
+                            auxiliar = "";
+                            Status_Flag = 0;
+                        }
+                        else if (auxiliar.Equals("{"))
+                        {
+                            i = i - 1;
+                            list_Tokens.Add(new Tokens(Tokens_T.Llave_A, auxiliar, Saltos, Columnas));
+                            auxiliar = "";
+                            Status_Flag = 0;
+                        }
+                        else if (auxiliar.Equals("|"))
+                        {
+                            i = i - 1;
+                            list_Tokens.Add(new Tokens(Tokens_T.Disyunción, auxiliar, Saltos, Columnas));
+                            auxiliar = "";
+                            Status_Flag = 0;
+                        }
+                        else if (auxiliar.Equals("}"))
+                        {
+                            i = i - 1;
+                            list_Tokens.Add(new Tokens(Tokens_T.Llave_C, auxiliar, Saltos, Columnas));
+                            auxiliar = "";
+                            Status_Flag = 0;
+                        }
+                        else if (auxiliar.Equals("~"))
+                        {
+                            i = i - 1;
+                            list_Tokens.Add(new Tokens(Tokens_T.Conjunto_Range, auxiliar, Saltos, Columnas));
+                            auxiliar = "";
+                            Status_Flag = 0;
+                        }
+                        else if (auxiliar.Equals("\""))
+                        {
+                            i = i - 1;
+                            list_Tokens.Add(new Tokens(Tokens_T.Comilla_Doble, auxiliar, Saltos, Columnas));
+                            auxiliar = "";
+                            Status_Flag = 0;
+                        }
+                        else if (auxiliar.Equals("->"))
+                        {
+                            i = i - 1;
+                            list_Tokens.Add(new Tokens(Tokens_T.flecha, auxiliar, Saltos, Columnas));
+                            auxiliar = "";
+                            Status_Flag = 0;
+                        }
+                        else if (auxiliar.Equals("[:"))
+                        {
+                            i = i - 1;
+                            list_Tokens.Add(new Tokens(Tokens_T.Todo_A, auxiliar, Saltos, Columnas));
+                            auxiliar = "";
+                            Status_Flag = 0;
+                        }
+                        else if (auxiliar.Equals(":]"))
+                        {
+                            i = i - 1;
+                            list_Tokens.Add(new Tokens(Tokens_T.Todo_C, auxiliar, Saltos, Columnas));
+                            auxiliar = "";
+                            Status_Flag = 0;
+                        }
+                        else if (auxiliar.Equals("%%"))
+                        {
+                            i = i - 1;
+                            list_Tokens.Add(new Tokens(Tokens_T.Separador, auxiliar, Saltos, Columnas));
+                            auxiliar = "";
+                            Status_Flag = 0;
+                        }
+
+
+
                         else
                         {
                             Console.WriteLine("TU IDEA NO FUNCIONÓ");
@@ -329,9 +471,9 @@ namespace OCL1_PY1
 
                     case 14:
                         int a14 = (int)entrada[i];
-                        if (a14 == 105)
-                        {//i
-                            Status_Flag = 26;
+                        if (a14 == 47)
+                        {//%
+                            Status_Flag = 9;
                             auxiliar += entrada[i];
                         }
                         else

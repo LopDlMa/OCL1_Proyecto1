@@ -69,6 +69,7 @@ namespace OCL1_PY1
         Llave_C,
         Conjunto,
         Conjunto_Range,
+        Punto_Coma,
         Signos,
         Salto_Linea,
         Comilla_Simple,
@@ -80,6 +81,8 @@ namespace OCL1_PY1
         Numero,
         Palabra,
         ID,
+        flecha,
+        Separador,
         Desconocido
     };
 
@@ -131,10 +134,16 @@ namespace OCL1_PY1
                     return "Comentario Multilinea";
                 case Tokens_T.Signos:
                     return "Signos";
+                case Tokens_T.flecha:
+                    return "Flecha";
+                case Tokens_T.Separador:
+                    return "Separador";
                 case Tokens_T.Salto_Linea:
                     return "Reservada Saltos de Linea";
                 case Tokens_T.Disyunción:
                     return "Signo Disyunción";
+                case Tokens_T.Punto_Coma:
+                    return "Signo Punto y Cooma";
                 case Tokens_T.Comilla_Simple:
                     return "Reservada Comilla Simple";
                 case Tokens_T.Comilla_Doble:
