@@ -31,28 +31,28 @@ namespace OCL1_PY1
                 int as0 = (int)entrada[i];
                 Console.WriteLine("Caracter: " + entrada[i] + " | ascii" + as0 + " |estado: " + Status_Flag);
 
-                if (as0 == 10 && Status_Flag == 0)
-                {
-                    Saltos++;
-                    Columnas = -1;
-                }
+                //if (as0 == 10 && Status_Flag == 0)
+                //{
+                //    Saltos++;
+                //    Columnas = -1;
+                //}
                 switch (Status_Flag)
                 {
                     case 0:
                         int a = (int)entrada[i];
                         if (a == 67)
                         {//C
+                            Status_Flag = 4;
+                            auxiliar += entrada[i];
+                        }
+                        else if (a == 47)
+                        {// /
                             Status_Flag = 1;
                             auxiliar += entrada[i];
                         }
-                        else if (a == 65)
-                        {//A
+                        else if (a == 60)
+                        {//<
                             Status_Flag = 2;
-                            auxiliar += entrada[i];
-                        }
-                        else if (a == 101)
-                        {//e
-                            Status_Flag = 3;
                             auxiliar += entrada[i];
                         }
                         else if (a == 97)
@@ -105,9 +105,9 @@ namespace OCL1_PY1
                         break;
                     case 1:
                         int a1 = (int)entrada[i];
-                        if (a1 == 114)
-                        {//r
-                            Status_Flag = 12;
+                        if (a1 == 47)
+                        {// /
+                            Status_Flag = 20;
                             auxiliar += entrada[i];
                         }
                         else
@@ -122,9 +122,9 @@ namespace OCL1_PY1
 
                     case 2:
                         int a2 = (int)entrada[i];
-                        if (a2 == 98)
-                        {//b
-                            Status_Flag = 13;
+                        if (a2 == 33)
+                        {//!
+                            Status_Flag = 22;
                             auxiliar += entrada[i];
                         }
                         else
@@ -154,19 +154,9 @@ namespace OCL1_PY1
 
                     case 4:
                         int a4 = (int)entrada[i];
-                        if (a4 == 98)
-                        {//b
+                        if (a4 == 79)
+                        {//O
                             Status_Flag = 15;
-                            auxiliar += entrada[i];
-                        }
-                        else if (a4 == 99)
-                        {//c
-                            Status_Flag = 16;
-                            auxiliar += entrada[i];
-                        }
-                        else if (a4 == 110)
-                        {//n
-                            Status_Flag = 144;
                             auxiliar += entrada[i];
                         }
                         else
@@ -204,7 +194,7 @@ namespace OCL1_PY1
                         else if ((a6 >= 97 && a6 <= 122) || (a6 >= 65 && a6 <= 90) || (a6 >= 48 && a6 <= 57) || a6 == 95)
                         {//Caracteres de a-z o A-Z o 0-9 
                             i = i - 1;
-                            list_Tokens.Add(new Tokens(Tokens_T.Nombre, auxiliar, Saltos, Columnas));
+                           // list_Tokens.Add(new Tokens(Tokens_T.Nombre, auxiliar, Saltos, Columnas));
                             //  nombre = new Tokens(Tokens_T.Nombre, auxiliar, Saltos, Columnas);
                             auxiliar = "";
                             Status_Flag = 0;
@@ -252,19 +242,19 @@ namespace OCL1_PY1
                         break;
 
                     case 9:
-                        int a9 = (int)entrada[i];
-                        if (a9 == 111)
-                        {//o
-                            Status_Flag = 20;
-                            auxiliar += entrada[i];
-                        }
-                        else
+                        if (auxiliar.Equals("CONJ:"))
                         {
-                            auxiliar = entrada[i].ToString();
-                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
+                            i = i - 1;
+                            list_Tokens.Add(new Tokens(Tokens_T.Reservada_Conjunto, auxiliar, Saltos, Columnas));
                             auxiliar = "";
                             Status_Flag = 0;
                         }
+                        else
+                        {
+                            Console.WriteLine("TU IDEA NO FUNCIONÓ");
+                        }
+                    
+                        
                         break;
 
                     case 10:
@@ -355,9 +345,9 @@ namespace OCL1_PY1
 
                     case 15:
                         int a15 = (int)entrada[i];
-                        if (a15 == 114)
-                        {//r
-                            Status_Flag = 27;
+                        if (a15 == 78)
+                        {//N
+                            Status_Flag = 17;
                             auxiliar += entrada[i];
                         }
                         else
@@ -387,9 +377,9 @@ namespace OCL1_PY1
 
                     case 17:
                         int a17 = (int)entrada[i];
-                        if (a17 == 101)
-                        {//e
-                            Status_Flag = 29;
+                        if (a17 == 74)
+                        {//J
+                            Status_Flag = 19;
                             auxiliar += entrada[i];
                         }
                         else
@@ -429,9 +419,9 @@ namespace OCL1_PY1
 
                     case 19:
                         int a19 = (int)entrada[i];
-                        if (a19 == 110)
-                        {//n
-                            Status_Flag = 32;
+                        if (a19 == 58)
+                        {//:
+                            Status_Flag = 9;
                             auxiliar += entrada[i];
                         }
                         else
@@ -445,10 +435,18 @@ namespace OCL1_PY1
 
                     case 20:
                         int a20 = (int)entrada[i];
-                        if (a20 == 118)
-                        {//v
-                            Status_Flag = 33;
+                        if (a20 != 10)
+                        {// not enter
+                            Status_Flag = 21;
                             auxiliar += entrada[i];
+                        }
+                        else if (a20 == 10)
+                        {//si enter
+                            i = i - 1;
+                            list_Tokens.Add(new Tokens(Tokens_T.Comentario_S, auxiliar, Saltos, Columnas));
+                            auxiliar = "";
+                            Status_Flag = 0;
+
                         }
                         else
                         {
@@ -461,10 +459,18 @@ namespace OCL1_PY1
 
                     case 21:
                         int a21 = (int)entrada[i];
-                        if (a21 == 112)
-                        {//p
-                            Status_Flag = 34;
-                            auxiliar += entrada[i];
+                        if (a21 != 10)
+                        {// not enter
+                            Status_Flag = 21;
+                            //auxiliar += entrada[i];
+                        }
+                        else if(a21 == 10)
+                        {//si enter
+                            i = i - 1;
+                            list_Tokens.Add(new Tokens(Tokens_T.Comentario_S, auxiliar, Saltos, Columnas));
+                            auxiliar = "";
+                            Status_Flag = 0;
+
                         }
                         else
                         {
@@ -477,9 +483,9 @@ namespace OCL1_PY1
 
                     case 22:
                         int a22 = (int)entrada[i];
-                        if (a22 == 114)
-                        {//r
-                            Status_Flag = 35;
+                        if (a22 != 33)
+                        {// not !
+                            Status_Flag = 23;
                             auxiliar += entrada[i];
                         }
                         else
@@ -493,9 +499,13 @@ namespace OCL1_PY1
 
                     case 23:
                         int a23 = (int)entrada[i];
-                        if (a23 == 58)
-                        {//:
-                            Status_Flag = 36;
+                        if (a23 != 33)
+                        {// not !
+                            Status_Flag = 23;
+                        }
+                        else if (a23 == 33)
+                        {//si  !
+                            Status_Flag = 24;
                             auxiliar += entrada[i];
                         }
                         else
@@ -509,10 +519,14 @@ namespace OCL1_PY1
 
                     case 24:
                         int a24 = (int)entrada[i];
-                        if (a24 == 97)
-                        {//a
-                            Status_Flag = 37;
+                        if (a24 == 62)
+                        {//>
+                            Status_Flag = 25;
                             auxiliar += entrada[i];
+                        } else if (a24 != 25)
+                        {
+                            Status_Flag = 23;
+                            
                         }
                         else
                         {
@@ -524,19 +538,11 @@ namespace OCL1_PY1
                         break;
 
                     case 25:
-                        int a25 = (int)entrada[i];
-                        if (a25 == 105)
-                        {//i
-                            Status_Flag = 38;
-                            auxiliar += entrada[i];
-                        }
-                        else
-                        {
-                            auxiliar = entrada[i].ToString();
-                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
-                            auxiliar = "";
-                            Status_Flag = 0;
-                        }
+                        i = i - 1;
+                        list_Tokens.Add(new Tokens(Tokens_T.Comentario_M, auxiliar, Saltos, Columnas));
+                        auxiliar = "";
+                        Status_Flag = 0;
+
                         break;
 
                     case 26:
@@ -1180,7 +1186,7 @@ namespace OCL1_PY1
 
                     case 65:
                         i = i - 1;
-                        list_Tokens.Add(new Tokens(Tokens_T.Reservada_CrearCarpeta, auxiliar, Saltos, Columnas));
+                     //   list_Tokens.Add(new Tokens(Tokens_T.Reservada_CrearCarpeta, auxiliar, Saltos, Columnas));
                         //palabra = new Tokens(Tokens_T.Reservada_CrearCarpeta, auxiliar, Saltos, Columnas);
                         auxiliar = "";
                         Status_Flag = 0;
@@ -1249,811 +1255,6 @@ namespace OCL1_PY1
                             Status_Flag = 0;
                         }
                         break;
-
-                    case 70:
-                        int a70 = (int)entrada[i];
-                        if (a70 == 97)
-                        {//a
-                            Status_Flag = 82;
-                            auxiliar += entrada[i];
-                        }
-                        else
-                        {
-                            auxiliar = entrada[i].ToString();
-                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
-                            auxiliar = "";
-                            Status_Flag = 0;
-                        }
-                        break;
-
-                    case 71:
-                        int a71 = (int)entrada[i];
-                        if (a71 == 114)
-                        {//r
-                            Status_Flag = 83;
-                            auxiliar += entrada[i];
-                        }
-                        else
-                        {
-                            auxiliar = entrada[i].ToString();
-                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
-                            auxiliar = "";
-                            Status_Flag = 0;
-                        }
-                        break;
-
-                    case 72:
-                        int a72 = (int)entrada[i];
-                        if (a72 == 85)
-                        {//U
-                            Status_Flag = 84;
-                            auxiliar += entrada[i];
-                        }
-                        else if (a72 == 84)
-                        {//T
-                            Status_Flag = 85;
-                            auxiliar += entrada[i];
-                        }
-                        else
-                        {
-                            auxiliar = entrada[i].ToString();
-                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
-                            auxiliar = "";
-                            Status_Flag = 0;
-                        }
-                        break;
-
-                    case 73:
-                        int a73 = (int)entrada[i];
-                        if (a73 == 97)
-                        {//a
-                            Status_Flag = 86;
-                            auxiliar += entrada[i];
-                        }
-                        else
-                        {
-                            auxiliar = entrada[i].ToString();
-                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
-                            auxiliar = "";
-                            Status_Flag = 0;
-                        }
-                        break;
-
-                    case 74:
-                        int a74 = (int)entrada[i];
-                        if (a74 == 32)
-                        {//SPACE
-                            Status_Flag = 87;
-                            auxiliar += entrada[i];
-                        }
-                        else
-                        {
-                            auxiliar = entrada[i].ToString();
-                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
-                            auxiliar = "";
-                            Status_Flag = 0;
-                        }
-                        break;
-
-                    case 75:
-                        int a75 = (int)entrada[i];
-                        if (a75 == 34)
-                        {//"
-                            Status_Flag = 138;
-                            auxiliar += entrada[i];
-                        }
-                        else if ((a75 >= 97 && a75 <= 122) || (a75 >= 65 && a75 <= 90) || (a75 >= 48 && a75 <= 57) || a75 == 95)
-                        {
-                            Status_Flag = 62;
-                            auxiliar += entrada[i];
-                        }
-                        else
-                        {
-                            auxiliar = entrada[i].ToString();
-                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
-                            auxiliar = "";
-                            Status_Flag = 0;
-                        }
-                        break;
-
-                    case 76:
-                        int a76 = (int)entrada[i];
-                        if (a76 == 114)
-                        {//r
-                            Status_Flag = 88;
-                            auxiliar += entrada[i];
-                        }
-                        else
-                        {
-                            auxiliar = entrada[i].ToString();
-                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
-                            auxiliar = "";
-                            Status_Flag = 0;
-                        }
-                        break;
-
-                    case 77:
-                        int a77 = (int)entrada[i];
-                        if (a77 == 99)
-                        {//c
-                            Status_Flag = 89;
-                            auxiliar += entrada[i];
-                        }
-                        else
-                        {
-                            auxiliar = entrada[i].ToString();
-                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
-                            auxiliar = "";
-                            Status_Flag = 0;
-                        }
-                        break;
-
-                    case 78:
-                        int a78 = (int)entrada[i];
-                        if (a78 == 114)
-                        {//r
-                            Status_Flag = 90;
-                            auxiliar += entrada[i];
-                        }
-                        else
-                        {
-                            auxiliar = entrada[i].ToString();
-                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
-                            auxiliar = "";
-                            Status_Flag = 0;
-                        }
-                        break;
-
-                    case 79:
-                        int a79 = (int)entrada[i];
-                        if (a79 == 99)
-                        {//c
-                            Status_Flag = 91;
-                            auxiliar += entrada[i];
-                        }
-                        else
-                        {
-                            auxiliar = entrada[i].ToString();
-                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
-                            auxiliar = "";
-                            Status_Flag = 0;
-                        }
-                        break;
-
-                    case 80:
-                        int a80 = (int)entrada[i];
-                        if (a80 == 101)
-                        {//e
-                            Status_Flag = 128;
-                            auxiliar += entrada[i];
-                        }
-                        else
-                        {
-                            auxiliar = entrada[i].ToString();
-                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
-                            auxiliar = "";
-                            Status_Flag = 0;
-                        }
-                        break;
-
-                    case 81:
-                        int a81 = (int)entrada[i];
-                        if (a81 == 114)
-                        {//r
-                            Status_Flag = 129;
-                            auxiliar += entrada[i];
-                        }
-                        else
-                        {
-                            auxiliar = entrada[i].ToString();
-                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
-                            auxiliar = "";
-                            Status_Flag = 0;
-                        }
-                        break;
-
-                    case 82:
-                        int a82 = (int)entrada[i];
-                        if (a82 == 114)
-                        {//r
-                            Status_Flag = 130;
-                            auxiliar += entrada[i];
-                        }
-                        else
-                        {
-                            auxiliar = entrada[i].ToString();
-                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
-                            auxiliar = "";
-                            Status_Flag = 0;
-                        }
-                        break;
-
-                    case 83:
-                        int a83 = (int)entrada[i];
-                        if (a83 == 97)
-                        {//a
-                            Status_Flag = 92;
-                            auxiliar += entrada[i];
-                        }
-                        else
-                        {
-                            auxiliar = entrada[i].ToString();
-                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
-                            auxiliar = "";
-                            Status_Flag = 0;
-                        }
-                        break;
-
-                    case 84:
-                        int a84 = (int)entrada[i];
-                        if (a84 == 115)
-                        {//s
-                            Status_Flag = 93;
-                            auxiliar += entrada[i];
-                        }
-                        else
-                        {
-                            auxiliar = entrada[i].ToString();
-                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
-                            auxiliar = "";
-                            Status_Flag = 0;
-                        }
-                        break;
-
-                    case 85:
-                        int a85 = (int)entrada[i];
-                        if (a85 == 101)
-                        {//e
-                            Status_Flag = 94;
-                            auxiliar += entrada[i];
-                        }
-                        else
-                        {
-                            auxiliar = entrada[i].ToString();
-                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
-                            auxiliar = "";
-                            Status_Flag = 0;
-                        }
-                        break;
-
-                    case 86:
-                        int a86 = (int)entrada[i];
-                        if (a86 == 114)
-                        {//r
-                            Status_Flag = 95;
-                            auxiliar += entrada[i];
-                        }
-                        else
-                        {
-                            auxiliar = entrada[i].ToString();
-                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
-                            auxiliar = "";
-                            Status_Flag = 0;
-                        }
-                        break;
-
-                    case 87:
-                        int a87 = (int)entrada[i];
-                        if (a87 == 97)
-                        {//a
-                            Status_Flag = 96;
-                            auxiliar += entrada[i];
-                        }
-                        else
-                        {
-                            auxiliar = entrada[i].ToString();
-                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
-                            auxiliar = "";
-                            Status_Flag = 0;
-                        }
-                        break;
-
-                    case 88:
-                        int a88 = (int)entrada[i];
-                        if (a88 == 112)
-                        {//p
-                            Status_Flag = 97;
-                            auxiliar += entrada[i];
-                        }
-                        else
-                        {
-                            auxiliar = entrada[i].ToString();
-                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
-                            auxiliar = "";
-                            Status_Flag = 0;
-                        }
-                        break;
-
-                    case 89:
-                        int a89 = (int)entrada[i];
-                        if (a89 == 104)
-                        {//h
-                            Status_Flag = 98;
-                            auxiliar += entrada[i];
-                        }
-                        else
-                        {
-                            auxiliar = entrada[i].ToString();
-                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
-                            auxiliar = "";
-                            Status_Flag = 0;
-                        }
-                        break;
-
-                    case 90:
-                        int a90 = (int)entrada[i];
-                        if (a90 == 67)
-                        {//C
-                            Status_Flag = 125;
-                            auxiliar += entrada[i];
-                        }
-                        else if (a90 == 65)
-                        {//A
-                            Status_Flag = 126;
-                            auxiliar += entrada[i];
-                        }
-                        else
-                        {
-                            auxiliar = entrada[i].ToString();
-                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
-                            auxiliar = "";
-                            Status_Flag = 0;
-                        }
-                        break;
-
-                    case 91:
-                        int a91 = (int)entrada[i];
-                        if (a91 == 104)
-                        {//h
-                            Status_Flag = 99;
-                            auxiliar += entrada[i];
-                        }
-                        else
-                        {
-                            auxiliar = entrada[i].ToString();
-                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
-                            auxiliar = "";
-                            Status_Flag = 0;
-                        }
-                        break;
-
-                    case 92:
-                        int a92 = (int)entrada[i];
-                        if (a92 == 114)
-                        {//r
-                            Status_Flag = 100;
-                            auxiliar += entrada[i];
-                        }
-                        else
-                        {
-                            auxiliar = entrada[i].ToString();
-                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
-                            auxiliar = "";
-                            Status_Flag = 0;
-                        }
-                        break;
-
-                    case 93:
-                        int a93 = (int)entrada[i];
-                        if (a93 == 117)
-                        {//u
-                            Status_Flag = 101;
-                            auxiliar += entrada[i];
-                        }
-                        else
-                        {
-                            auxiliar = entrada[i].ToString();
-                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
-                            auxiliar = "";
-                            Status_Flag = 0;
-                        }
-                        break;
-
-                    case 94:
-                        int a94 = (int)entrada[i];
-                        if (a94 == 99)
-                        {//c
-                            Status_Flag = 102;
-                            auxiliar += entrada[i];
-                        }
-                        else
-                        {
-                            auxiliar = entrada[i].ToString();
-                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
-                            auxiliar = "";
-                            Status_Flag = 0;
-                        }
-                        break;
-
-                    case 95:
-                        int a95 = (int)entrada[i];
-                        if (a95 == 99)
-                        {//c
-                            Status_Flag = 103;
-                            auxiliar += entrada[i];
-                        }
-                        else
-                        {
-                            auxiliar = entrada[i].ToString();
-                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
-                            auxiliar = "";
-                            Status_Flag = 0;
-                        }
-                        break;
-
-                    case 96:
-                        int a96 = (int)entrada[i];
-                        if (a96 == 114)
-                        {//r
-                            Status_Flag = 104;
-                            auxiliar += entrada[i];
-                        }
-                        else
-                        {
-                            auxiliar = entrada[i].ToString();
-                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
-                            auxiliar = "";
-                            Status_Flag = 0;
-                        }
-                        break;
-
-                    case 97:
-                        int a97 = (int)entrada[i];
-                        if (a97 == 101)
-                        {//e
-                            Status_Flag = 105;
-                            auxiliar += entrada[i];
-                        }
-                        else
-                        {
-                            auxiliar = entrada[i].ToString();
-                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
-                            auxiliar = "";
-                            Status_Flag = 0;
-                        }
-                        break;
-
-                    case 98:
-                        int a98 = (int)entrada[i];
-                        if (a98 == 105)
-                        {//i
-                            Status_Flag = 106;
-                            auxiliar += entrada[i];
-                        }
-                        else
-                        {
-                            auxiliar = entrada[i].ToString();
-                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
-                            auxiliar = "";
-                            Status_Flag = 0;
-                        }
-                        break;
-
-                    case 99:
-                        int a99 = (int)entrada[i];
-                        if (a99 == 105)
-                        {//i
-                            Status_Flag = 107;
-                            auxiliar += entrada[i];
-                        }
-                        else
-                        {
-                            auxiliar = entrada[i].ToString();
-                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
-                            auxiliar = "";
-                            Status_Flag = 0;
-                        }
-                        break;
-
-                    case 100:
-                        int a100 = (int)entrada[i];
-                        if (a100 == 67)
-                        {//C
-                            Status_Flag = 131;
-                            auxiliar += entrada[i];
-                        }
-                        else if (a100 == 65)
-                        {//A
-                            Status_Flag = 132;
-                            auxiliar += entrada[i];
-                        }
-                        else
-                        {
-                            auxiliar = entrada[i].ToString();
-                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
-                            auxiliar = "";
-                            Status_Flag = 0;
-                        }
-                        break;
-
-                    case 101:
-                        int a101 = (int)entrada[i];
-                        if (a101 == 97)
-                        {//a
-                            Status_Flag = 108;
-                            auxiliar += entrada[i];
-                        }
-                        else
-                        {
-                            auxiliar = entrada[i].ToString();
-                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
-                            auxiliar = "";
-                            Status_Flag = 0;
-                        }
-                        break;
-
-                    case 102:
-                        int a102 = (int)entrada[i];
-                        if (a102 == 110)
-                        {//n
-                            Status_Flag = 109;
-                            auxiliar += entrada[i];
-                        }
-                        else
-                        {
-                            auxiliar = entrada[i].ToString();
-                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
-                            auxiliar = "";
-                            Status_Flag = 0;
-                        }
-                        break;
-
-                    case 103:
-                        int a103 = (int)entrada[i];
-                        if (a103 == 104)
-                        {//h
-                            Status_Flag = 110;
-                            auxiliar += entrada[i];
-                        }
-                        else
-                        {
-                            auxiliar = entrada[i].ToString();
-                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
-                            auxiliar = "";
-                            Status_Flag = 0;
-                        }
-                        break;
-
-                    case 104:
-                        int a104 = (int)entrada[i];
-                        if (a104 == 99)
-                        {//c
-                            Status_Flag = 111;
-                            auxiliar += entrada[i];
-                        }
-                        else
-                        {
-                            auxiliar = entrada[i].ToString();
-                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
-                            auxiliar = "";
-                            Status_Flag = 0;
-                        }
-                        break;
-
-                    case 105:
-                        int a105 = (int)entrada[i];
-                        if (a105 == 116)
-                        {//t
-                            Status_Flag = 112;
-                            auxiliar += entrada[i];
-                        }
-                        else
-                        {
-                            auxiliar = entrada[i].ToString();
-                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
-                            auxiliar = "";
-                            Status_Flag = 0;
-                        }
-                        break;
-
-                    case 106:
-                        int a106 = (int)entrada[i];
-                        if (a106 == 118)
-                        {//v
-                            Status_Flag = 113;
-                            auxiliar += entrada[i];
-                        }
-                        else
-                        {
-                            auxiliar = entrada[i].ToString();
-                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
-                            auxiliar = "";
-                            Status_Flag = 0;
-                        }
-                        break;
-
-                    case 107:
-                        int a107 = (int)entrada[i];
-                        if (a107 == 118)
-                        {//v
-                            Status_Flag = 114;
-                            auxiliar += entrada[i];
-                        }
-                        else
-                        {
-                            auxiliar = entrada[i].ToString();
-                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
-                            auxiliar = "";
-                            Status_Flag = 0;
-                        }
-                        break;
-
-                    case 108:
-                        int a108 = (int)entrada[i];
-                        if (a108 == 114)
-                        {//r
-                            Status_Flag = 115;
-                            auxiliar += entrada[i];
-                        }
-                        else
-                        {
-                            auxiliar = entrada[i].ToString();
-                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
-                            auxiliar = "";
-                            Status_Flag = 0;
-                        }
-                        break;
-
-                    case 109:
-                        int a109 = (int)entrada[i];
-                        if (a109 == 105)
-                        {//i
-                            Status_Flag = 116;
-                            auxiliar += entrada[i];
-                        }
-                        else
-                        {
-                            auxiliar = entrada[i].ToString();
-                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
-                            auxiliar = "";
-                            Status_Flag = 0;
-                        }
-                        break;
-
-                    case 110:
-                        int a110 = (int)entrada[i];
-                        if (a110 == 105)
-                        {//i
-                            Status_Flag = 117;
-                            auxiliar += entrada[i];
-                        }
-                        else
-                        {
-                            auxiliar = entrada[i].ToString();
-                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
-                            auxiliar = "";
-                            Status_Flag = 0;
-                        }
-                        break;
-
-                    case 111:
-                        int a111 = (int)entrada[i];
-                        if (a111 == 104)
-                        {//h
-                            Status_Flag = 118;
-                            auxiliar += entrada[i];
-                        }
-                        else
-                        {
-                            auxiliar = entrada[i].ToString();
-                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
-                            auxiliar = "";
-                            Status_Flag = 0;
-                        }
-                        break;
-
-                    case 112:
-                        int a112 = (int)entrada[i];
-                        if (a112 == 97)
-                        {//a
-                            Status_Flag = 65;
-                            auxiliar += entrada[i];
-                        }
-                        else
-                        {
-                            auxiliar = entrada[i].ToString();
-                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
-                            auxiliar = "";
-                            Status_Flag = 0;
-                        }
-                        break;
-
-                    case 113:
-                        int a113 = (int)entrada[i];
-                        if (a113 == 111)
-                        {//o
-                            Status_Flag = 124;
-                            auxiliar += entrada[i];
-                        }
-                        else
-                        {
-                            auxiliar = entrada[i].ToString();
-                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
-                            auxiliar = "";
-                            Status_Flag = 0;
-                        }
-                        break;
-
-                    case 114:
-                        int a114 = (int)entrada[i];
-                        if (a114 == 111)
-                        {//o
-                            Status_Flag = 127;
-                            auxiliar += entrada[i];
-                        }
-                        else
-                        {
-                            auxiliar = entrada[i].ToString();
-                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
-                            auxiliar = "";
-                            Status_Flag = 0;
-                        }
-                        break;
-
-                    case 115:
-                        int a115 = (int)entrada[i];
-                        if (a115 == 105)
-                        {//i
-                            Status_Flag = 119;
-                            auxiliar += entrada[i];
-                        }
-                        else
-                        {
-                            auxiliar = entrada[i].ToString();
-                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
-                            auxiliar = "";
-                            Status_Flag = 0;
-                        }
-                        break;
-
-                    case 116:
-                        int a116 = (int)entrada[i];
-                        if (a116 == 99)
-                        {//c
-                            Status_Flag = 120;
-                            auxiliar += entrada[i];
-                        }
-                        else
-                        {
-                            auxiliar = entrada[i].ToString();
-                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
-                            auxiliar = "";
-                            Status_Flag = 0;
-                        }
-                        break;
-
-                    case 117:
-                        int a117 = (int)entrada[i];
-                        if (a117 == 118)
-                        {//v
-                            Status_Flag = 121;
-                            auxiliar += entrada[i];
-                        }
-                        else
-                        {
-                            auxiliar = entrada[i].ToString();
-                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
-                            auxiliar = "";
-                            Status_Flag = 0;
-                        }
-                        break;
-
-                    case 118:
-                        int a118 = (int)entrada[i];
-                        if (a118 == 105)
-                        {//i
-                            Status_Flag = 122;
-                            auxiliar += entrada[i];
-                        }
-                        else
-                        {
-                            auxiliar = entrada[i].ToString();
-                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
-                            auxiliar = "";
-                            Status_Flag = 0;
-                        }
-                        break;
-
                     case 119:
                         int a119 = (int)entrada[i];
                         if (a119 == 111)
@@ -2136,7 +1337,7 @@ namespace OCL1_PY1
 
                     case 124:
                         i = i - 1;
-                        list_Tokens.Add(new Tokens(Tokens_T.Reservada_CrearArchivo, auxiliar, Saltos, Columnas));
+                       // list_Tokens.Add(new Tokens(Tokens_T.Reservada_CrearArchivo, auxiliar, Saltos, Columnas));
                         //palabra = new Tokens(Tokens_T.Reservada_CrearArchivo, auxiliar, Saltos, Columnas);
                         auxiliar = "";
                         Status_Flag = 0;
@@ -2144,7 +1345,7 @@ namespace OCL1_PY1
 
                     case 125:
                         i = i - 1;
-                        list_Tokens.Add(new Tokens(Tokens_T.Reservada_eliminarC, auxiliar, Saltos, Columnas));
+                      //  list_Tokens.Add(new Tokens(Tokens_T.Reservada_eliminarC, auxiliar, Saltos, Columnas));
                         //palabra = new Tokens(Tokens_T.Reservada_eliminarC, auxiliar, Saltos, Columnas);
                         auxiliar = "";
                         Status_Flag = 0;
@@ -2152,7 +1353,7 @@ namespace OCL1_PY1
 
                     case 126:
                         i = i - 1;
-                        list_Tokens.Add(new Tokens(Tokens_T.Reservada_eliminarA, auxiliar, Saltos, Columnas));
+                      //  list_Tokens.Add(new Tokens(Tokens_T.Reservada_eliminarA, auxiliar, Saltos, Columnas));
                         //palabra = new Tokens(Tokens_T.Reservada_eliminarA, auxiliar, Saltos, Columnas);
                         auxiliar = "";
                         Status_Flag = 0;
@@ -2160,7 +1361,7 @@ namespace OCL1_PY1
 
                     case 127:
                         i = i - 1;
-                        list_Tokens.Add(new Tokens(Tokens_T.Reservada_abrirArchivo, auxiliar, Saltos, Columnas));
+                       // list_Tokens.Add(new Tokens(Tokens_T.Reservada_abrirArchivo, auxiliar, Saltos, Columnas));
                         //palabra = new Tokens(Tokens_T.Reservada_abrirArchivo, auxiliar, Saltos, Columnas);
                         auxiliar = "";
                         Status_Flag = 0;
@@ -2168,7 +1369,7 @@ namespace OCL1_PY1
 
                     case 128:
                         i = i - 1;
-                        list_Tokens.Add(new Tokens(Tokens_T.Reservada_acercaDe, auxiliar, Saltos, Columnas));
+                     //   list_Tokens.Add(new Tokens(Tokens_T.Reservada_acercaDe, auxiliar, Saltos, Columnas));
                         //palabra = new Tokens(Tokens_T.Reservada_acercaDe, auxiliar, Saltos, Columnas);
                         auxiliar = "";
                         Status_Flag = 0;
@@ -2176,7 +1377,7 @@ namespace OCL1_PY1
 
                     case 129:
                         i = i - 1;
-                        list_Tokens.Add(new Tokens(Tokens_T.Reservada_Ejecutar, auxiliar, Saltos, Columnas));
+                       // list_Tokens.Add(new Tokens(Tokens_T.Reservada_Ejecutar, auxiliar, Saltos, Columnas));
                         //palabra = new Tokens(Tokens_T.Reservada_Ejecutar, auxiliar, Saltos, Columnas);
                         auxiliar = "";
                         Status_Flag = 0;
@@ -2184,7 +1385,7 @@ namespace OCL1_PY1
 
                     case 130:
                         i = i - 1;
-                        list_Tokens.Add(new Tokens(Tokens_T.Reservada_regresar, auxiliar, Saltos, Columnas));
+                       // list_Tokens.Add(new Tokens(Tokens_T.Reservada_regresar, auxiliar, Saltos, Columnas));
                         //palabra = new Tokens(Tokens_T.Reservada_regresar, auxiliar, Saltos, Columnas);
                         auxiliar = "";
                         Status_Flag = 0;
@@ -2192,7 +1393,7 @@ namespace OCL1_PY1
 
                     case 131:
                         i = i - 1;
-                        list_Tokens.Add(new Tokens(Tokens_T.Reservada_renombrarC, auxiliar, Saltos, Columnas));
+                     //   list_Tokens.Add(new Tokens(Tokens_T.Reservada_renombrarC, auxiliar, Saltos, Columnas));
                         //palabra = new Tokens(Tokens_T.Reservada_renombrarC, auxiliar, Saltos, Columnas);
                         auxiliar = "";
                         Status_Flag = 0;
@@ -2200,7 +1401,7 @@ namespace OCL1_PY1
 
                     case 132:
                         i = i - 1;
-                        list_Tokens.Add(new Tokens(Tokens_T.Reservada_renombrarA, auxiliar, Saltos, Columnas));
+                    //    list_Tokens.Add(new Tokens(Tokens_T.Reservada_renombrarA, auxiliar, Saltos, Columnas));
                         //palabra = new Tokens(Tokens_T.Reservada_renombrarA, auxiliar, Saltos, Columnas);
                         auxiliar = "";
                         Status_Flag = 0;
@@ -2208,7 +1409,7 @@ namespace OCL1_PY1
 
                     case 133:
                         i = i - 1;
-                        list_Tokens.Add(new Tokens(Tokens_T.Reservada_ManualTecnico, auxiliar, Saltos, Columnas));
+                  //      list_Tokens.Add(new Tokens(Tokens_T.Reservada_ManualTecnico, auxiliar, Saltos, Columnas));
                         //palabra = new Tokens(Tokens_T.Reservada_ManualTecnico, auxiliar, Saltos, Columnas);
                         auxiliar = "";
                         Status_Flag = 0;
@@ -2216,7 +1417,7 @@ namespace OCL1_PY1
 
                     case 134:
                         i = i - 1;
-                        list_Tokens.Add(new Tokens(Tokens_T.Reservada_ManualUsuario, auxiliar, Saltos, Columnas));
+                     //   list_Tokens.Add(new Tokens(Tokens_T.Reservada_ManualUsuario, auxiliar, Saltos, Columnas));
                         //palabra = new Tokens(Tokens_T.Reservada_ManualUsuario, auxiliar, Saltos, Columnas);
                         auxiliar = "";
                         Status_Flag = 0;
@@ -2224,7 +1425,7 @@ namespace OCL1_PY1
 
                     case 135:
                         i = i - 1;
-                        list_Tokens.Add(new Tokens(Tokens_T.Reservada_mover_archivo, auxiliar, Saltos, Columnas));
+                     //   list_Tokens.Add(new Tokens(Tokens_T.Reservada_mover_archivo, auxiliar, Saltos, Columnas));
                         //palabra = new Tokens(Tokens_T.Reservada_mover_archivo, auxiliar, Saltos, Columnas);
                         auxiliar = "";
                         Status_Flag = 0;
@@ -2232,7 +1433,7 @@ namespace OCL1_PY1
 
                     case 136:
                         i = i - 1;
-                        list_Tokens.Add(new Tokens(Tokens_T.Reservada_copiar_archivo, auxiliar, Saltos, Columnas));
+                     //   list_Tokens.Add(new Tokens(Tokens_T.Reservada_copiar_archivo, auxiliar, Saltos, Columnas));
                         //palabra = new Tokens(Tokens_T.Reservada_copiar_archivo, auxiliar, Saltos, Columnas);
                         auxiliar = "";
                         Status_Flag = 0;
@@ -2240,7 +1441,7 @@ namespace OCL1_PY1
 
                     case 137:
                         i = i - 1;
-                        list_Tokens.Add(new Tokens(Tokens_T.Reservada_cargar, auxiliar, Saltos, Columnas));
+                     //   list_Tokens.Add(new Tokens(Tokens_T.Reservada_cargar, auxiliar, Saltos, Columnas));
                         //palabra = new Tokens(Tokens_T.Reservada_cargar, auxiliar, Saltos, Columnas);
                         auxiliar = "";
                         Status_Flag = 0;
@@ -2248,7 +1449,7 @@ namespace OCL1_PY1
 
                     case 138:
                         i = i - 1;
-                        list_Tokens.Add(new Tokens(Tokens_T.Ruta, auxiliar, Saltos, Columnas));
+                   //     list_Tokens.Add(new Tokens(Tokens_T.Ruta, auxiliar, Saltos, Columnas));
                         //   palabra = new Tokens(Tokens_T.Ruta, auxiliar, Saltos, Columnas);
                         auxiliar = "";
                         Status_Flag = 0;
@@ -2320,7 +1521,7 @@ namespace OCL1_PY1
 
                     case 143:
                         i = i - 1;
-                        list_Tokens.Add(new Tokens(Tokens_T.reporte, auxiliar, Saltos, Columnas));
+                       // list_Tokens.Add(new Tokens(Tokens_T.reporte, auxiliar, Saltos, Columnas));
                         //  palabra = new Tokens(Tokens_T.reporte, auxiliar, Saltos, Columnas);
                         auxiliar = "";
                         Status_Flag = 0;
@@ -2425,7 +1626,7 @@ namespace OCL1_PY1
 
                     case 150:
                         i = i - 1;
-                        list_Tokens.Add(new Tokens(Tokens_T.analizar, auxiliar, Saltos, Columnas));
+                   //     list_Tokens.Add(new Tokens(Tokens_T.analizar, auxiliar, Saltos, Columnas));
                         //   palabra = new Tokens(Tokens_T.analizar, auxiliar, Saltos, Columnas);
                         auxiliar = "";
                         Status_Flag = 0;
@@ -2433,7 +1634,7 @@ namespace OCL1_PY1
 
                     case 151:
                         i = i - 1;
-                        list_Tokens.Add(new Tokens(Tokens_T.Reservada_AbrirC, auxiliar, Saltos, Columnas));
+                      //  list_Tokens.Add(new Tokens(Tokens_T.Reservada_AbrirC, auxiliar, Saltos, Columnas));
                         //  palabra = new Tokens(Tokens_T.Reservada_AbrirC, auxiliar, Saltos, Columnas);
                         auxiliar = "";
                         Status_Flag = 0;
