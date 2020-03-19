@@ -117,7 +117,7 @@ namespace OCL1_PY1
                 foreach(Tokens t in ultimos_lexemas)
                 {
 
-                    Console.WriteLine(t.Value + " || LINEA : " + t.linea + " || COLUMNA : " + t.columna);
+                    Console.WriteLine(t.Value + " || LINEA : " + t.linea + " || COLUMNA : " + t.columna + "| TOKEN: "+t.TokenType);
 
                 }
                 Console.WriteLine("ERRORES ENCONTRADOS ");
