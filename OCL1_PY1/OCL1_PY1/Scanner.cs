@@ -82,6 +82,16 @@ namespace OCL1_PY1
                             Status_Flag = 10;
                             auxiliar += entrada[i];
                         }
+                        else if(a>= 48 && a <= 57)
+                        {//NUMEROS
+                            Status_Flag = 11;
+                            auxiliar += entrada[i];
+                        }
+                        else if (a == 37)
+                        {//%
+                            Status_Flag = 14;
+                            auxiliar += entrada[i];
+                        }
                         else
                         {
                             auxiliar = entrada[i].ToString();
@@ -267,19 +277,54 @@ namespace OCL1_PY1
                         {
                             Status_Flag = 10;
                             auxiliar += entrada[i];
-                            
+
                         }
-                        else if (a10 >=1 && a10 <= 47|| a10 >=58 && a10 <= 64 || a10 >=91 && a10 <= 94 || a10 == 96 || a10 == 97 || a10 >= 123 && a10 <= 255) 
+                        else if (a10 >=1 && a10 <= 47) 
                         {
                             i = i - 1;
                             list_Tokens.Add(new Tokens(Tokens_T.Palabra, auxiliar, Saltos, Columnas));
                             auxiliar = "";
                             Status_Flag = 0;
                         }
+                        else if (a10 >= 1 && a10 <= 47)
+                        {
+                            // i = i - 1;
+                            list_Tokens.Add(new Tokens(Tokens_T.Palabra, auxiliar, Saltos, Columnas));
+                            auxiliar = "";
+                            Status_Flag = 0;
+                        }
                         else if(a10 == 95 || a10 >= 48 && a10 <= 57)
                         {
+                            Console.WriteLine("vamos a ID");
                             Status_Flag = 13;
                             auxiliar += entrada[i];
+                        }
+                        else
+                        {
+                            auxiliar = entrada[i].ToString();
+                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
+                            auxiliar = "";
+                            Status_Flag = 0;
+                        }
+                        break;
+
+                    case 11:
+                        int a11 = (int)entrada[i];
+                        if(a11 >=48 && a11 <= 57)
+                        {
+                            Status_Flag = 11;
+                            auxiliar += entrada[i];
+                        }
+                        else if (a11 >= 1 && a11 <= 47 )
+                        {
+                            //i = i - 1;
+                            list_Tokens.Add(new Tokens(Tokens_T.Numero, auxiliar, Saltos, Columnas));
+                            auxiliar = "";
+                            Status_Flag = 0;
+                        }
+                        else if (a11 == 46)
+                        {
+
                         }
                         else
                         {
@@ -296,12 +341,45 @@ namespace OCL1_PY1
                         {
                             Status_Flag = 13;
                             auxiliar += entrada[i];
+                           
+                        } 
+                        else if (a13 >= 1 &&  a13 <= 47)
+                        {
+                           // i = i - 1;
                             list_Tokens.Add(new Tokens(Tokens_T.ID, auxiliar, Saltos, Columnas));
                             auxiliar = "";
                             Status_Flag = 0;
                         }
+                        else
+                        {
+                            auxiliar = entrada[i].ToString();
+                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
+                            auxiliar = "";
+                            Status_Flag = 0;
+                        }
+
                         break;
-                        
+
+                    case 14:
+                        int a14 = (int)entrada[i];
+                        if(a14 == 37)
+                        {//%
+                            auxiliar += entrada[i];
+                                // i = i - 1;
+                                list_Tokens.Add(new Tokens(Tokens_T.ID, auxiliar, Saltos, Columnas));
+                                auxiliar = "";
+                                Status_Flag = 0;
+                          
+                        }
+                        else
+                        {
+                            auxiliar = entrada[i].ToString();
+                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
+                            auxiliar = "";
+                            Status_Flag = 0;
+                        }
+                        break;
+
                     case 15:
                         int a15 = (int)entrada[i];
                         if(a15 == 78)
