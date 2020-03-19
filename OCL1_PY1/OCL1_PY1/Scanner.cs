@@ -36,21 +36,22 @@ namespace OCL1_PY1
                     Saltos++;
                     Columnas = -1;
                 }
+
                 switch (Status_Flag)
                 {
                     case 0:
                         int a = (int)entrada[i];
-                        if(a == 47)
+                        if (a == 47)
                         {// /
                             Status_Flag = 1;
                             auxiliar += entrada[i];
                         }
-                        else if(a == 60)
+                        else if (a == 60)
                         {//<
                             Status_Flag = 2;
                             auxiliar += entrada[i];
                         }
-                        else if(a == 67)
+                        else if (a == 67)
                         {// C
                             Status_Flag = 4;
                             auxiliar += entrada[i];
@@ -61,14 +62,24 @@ namespace OCL1_PY1
                             auxiliar += entrada[i];
                         }
 
-                        else if( a== 91)
+                        else if (a == 91)
                         {//[
                             Status_Flag = 6;
                             auxiliar += entrada[i];
                         }
-                        else if(a == 58)
+                        else if (a == 58)
                         {
                             Status_Flag = 7;
+                            auxiliar += entrada[i];
+                        }
+                        else if (a == 92)
+                        {//\
+                            Status_Flag = 8;
+                            auxiliar += entrada[i];
+                        }
+                        else if (a >= 65 && a <= 90 || a >= 97 && a <= 122)
+                        {// MAYUSCULAS y minusculas
+                            Status_Flag = 10;
                             auxiliar += entrada[i];
                         }
                         else
@@ -206,6 +217,91 @@ namespace OCL1_PY1
                         }
                         break;
 
+                    case 8:
+                        int a8 = (int)entrada[i];
+                        if(a8 == 34)
+                        {// "
+                            auxiliar += entrada[i];
+                            Columnas++;
+                            // i = i - 1;
+                            list_Tokens.Add(new Tokens(Tokens_T.Comilla_Doble, auxiliar, Saltos, Columnas));
+                            auxiliar = "";
+                            Status_Flag = 0;
+                        }
+                        else if( a8 == 39)
+                        { // '
+                            auxiliar += entrada[i];
+                            // i = i - 1;
+                            list_Tokens.Add(new Tokens(Tokens_T.Comilla_Simple, auxiliar, Saltos, Columnas));
+                            auxiliar = "";
+                            Status_Flag = 0;
+                        }
+                        else if(a8 == 110)
+                        {//n
+                            auxiliar += entrada[i];
+                            // i = i - 1;
+                            list_Tokens.Add(new Tokens(Tokens_T.Salto_Linea, auxiliar, Saltos, Columnas));
+                            auxiliar = "";
+                            Status_Flag = 0;
+                        }
+                        else if (a8 == 116)
+                        {
+                            auxiliar += entrada[i];
+                            // i = i - 1;
+                            list_Tokens.Add(new Tokens(Tokens_T.Tabulación, auxiliar, Saltos, Columnas));
+                            auxiliar = "";
+                            Status_Flag = 0;
+                        }
+                        else
+                        {
+                            auxiliar = entrada[i].ToString();
+                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
+                            auxiliar = "";
+                            Status_Flag = 0;
+                        }
+                        break;
+
+                    case 10:
+                        int a10 = (int)entrada[i];
+                        if(a10 >= 65 && a10 <= 90 || a10 >= 97 && a10 <= 122)
+                        {
+                            Status_Flag = 10;
+                            auxiliar += entrada[i];
+                            
+                        }
+                        else if (a10 >=1 && a10 <= 47|| a10 >=58 && a10 <= 64 || a10 >=91 && a10 <= 94 || a10 == 96 || a10 == 97 || a10 >= 123 && a10 <= 255) 
+                        {
+                            i = i - 1;
+                            list_Tokens.Add(new Tokens(Tokens_T.Palabra, auxiliar, Saltos, Columnas));
+                            auxiliar = "";
+                            Status_Flag = 0;
+                        }
+                        else if(a10 == 95 || a10 >= 48 && a10 <= 57)
+                        {
+                            Status_Flag = 13;
+                            auxiliar += entrada[i];
+                        }
+                        else
+                        {
+                            auxiliar = entrada[i].ToString();
+                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
+                            auxiliar = "";
+                            Status_Flag = 0;
+                        }
+                        break;
+
+                    case 13:
+                        int a13 = (int)entrada[i];
+                        if( a13 == 95 || a13 >= 48 && a13 <= 57 || a13 >= 65 && a13 <= 90 || a13 >= 97 && a13 <= 122)
+                        {
+                            Status_Flag = 13;
+                            auxiliar += entrada[i];
+                            list_Tokens.Add(new Tokens(Tokens_T.ID, auxiliar, Saltos, Columnas));
+                            auxiliar = "";
+                            Status_Flag = 0;
+                        }
+                        break;
+                        
                     case 15:
                         int a15 = (int)entrada[i];
                         if(a15 == 78)
