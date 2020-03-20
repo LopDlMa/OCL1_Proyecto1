@@ -61,7 +61,6 @@ namespace OCL1_PY1
                             Status_Flag = 5;
                             auxiliar += entrada[i];
                         }
-
                         else if (a == 91)
                         {//[
                             Status_Flag = 6;
@@ -86,6 +85,94 @@ namespace OCL1_PY1
                         {//NUMEROS
                             Status_Flag = 11;
                             auxiliar += entrada[i];
+                        }
+                       else if( a== 34)
+                        {//"
+                            auxiliar += entrada[i];
+                            list_Tokens.Add(new Tokens(Tokens_T.Comilla_Doble, auxiliar, Saltos, Columnas));
+                            auxiliar = "";
+                            Status_Flag = 0;
+                        }
+                        else if( a == 39)
+                        {// '
+                            auxiliar += entrada[i];
+                            list_Tokens.Add(new Tokens(Tokens_T.Comilla_Simple, auxiliar, Saltos, Columnas));
+                            auxiliar = "";
+                            Status_Flag = 0;
+                        }
+                        else if (a == 42)
+                        {//*
+                            auxiliar += entrada[i];
+                            list_Tokens.Add(new Tokens(Tokens_T.Cero_o_mas, auxiliar, Saltos, Columnas));
+                            auxiliar = "";
+                            Status_Flag = 0;
+                        }
+                        else if (a == 43)
+                        {// +
+                            auxiliar += entrada[i];
+                            list_Tokens.Add(new Tokens(Tokens_T.Una_o_mas, auxiliar, Saltos, Columnas));
+                            auxiliar = "";
+                            Status_Flag = 0;
+                        }
+                        else if (a == 44)
+                        {//,
+                            auxiliar += entrada[i];
+                            list_Tokens.Add(new Tokens(Tokens_T.Coma, auxiliar, Saltos, Columnas));
+                            auxiliar = "";
+                            Status_Flag = 0;
+                        }
+                        else if (a == 46)
+                        {//.
+                            auxiliar += entrada[i];
+                            list_Tokens.Add(new Tokens(Tokens_T.Concatenación, auxiliar, Saltos, Columnas));
+                            auxiliar = "";
+                            Status_Flag = 0;
+                        }
+                        else if (a == 59)
+                        {//;
+                            auxiliar += entrada[i];
+                            list_Tokens.Add(new Tokens(Tokens_T.Punto_Coma, auxiliar, Saltos, Columnas));
+                            auxiliar = "";
+                            Status_Flag = 0;
+                        }
+                        else if (a == 63)
+                        {//?
+                            auxiliar += entrada[i];
+                            list_Tokens.Add(new Tokens(Tokens_T.Cero_o_1, auxiliar, Saltos, Columnas));
+                            auxiliar = "";
+                            Status_Flag = 0;
+                        }
+                        else if (a == 123)
+                        {//{
+                            auxiliar += entrada[i];
+                            list_Tokens.Add(new Tokens(Tokens_T.Llave_A, auxiliar, Saltos, Columnas));
+                            auxiliar = "";
+                            Status_Flag = 0;
+                        }
+                        else if (a == 124)
+                        {//|
+                            auxiliar += entrada[i];
+                            list_Tokens.Add(new Tokens(Tokens_T.Disyunción, auxiliar, Saltos, Columnas));
+                            auxiliar = "";
+                            Status_Flag = 0;
+                        }
+                        else if (a == 125)
+                        {//}
+                            auxiliar += entrada[i];
+                            list_Tokens.Add(new Tokens(Tokens_T.Llave_C, auxiliar, Saltos, Columnas));
+                            auxiliar = "";
+                            Status_Flag = 0;
+                        }
+                        else if (a == 126)
+                        {//~
+                            auxiliar += entrada[i];
+                            list_Tokens.Add(new Tokens(Tokens_T.Conjunto_Range, auxiliar, Saltos, Columnas));
+                            auxiliar = "";
+                            Status_Flag = 0;
+                        }
+                        else if (a >= 1 && a <= 47)
+                        {
+                            Status_Flag = 0;
                         }
                         else if (a == 37)
                         {//%
@@ -274,7 +361,7 @@ namespace OCL1_PY1
                     case 10:
                         int a10 = (int)entrada[i];
                         if(a10 >= 65 && a10 <= 90 || a10 >= 97 && a10 <= 122)
-                        {
+                        {// LETRAS
                             Status_Flag = 10;
                             auxiliar += entrada[i];
 
@@ -311,11 +398,11 @@ namespace OCL1_PY1
                     case 11:
                         int a11 = (int)entrada[i];
                         if(a11 >=48 && a11 <= 57)
-                        {
+                        {// NUMEROS
                             Status_Flag = 11;
                             auxiliar += entrada[i];
                         }
-                        else if (a11 >= 1 && a11 <= 47 )
+                        else if (a11 >= 1 && a11 <= 31 )
                         {
                             //i = i - 1;
                             list_Tokens.Add(new Tokens(Tokens_T.Numero, auxiliar, Saltos, Columnas));
@@ -323,8 +410,9 @@ namespace OCL1_PY1
                             Status_Flag = 0;
                         }
                         else if (a11 == 46)
-                        {
-
+                        {// .
+                            Status_Flag = 16;
+                            auxiliar += entrada[i];
                         }
                         else
                         {
@@ -334,6 +422,8 @@ namespace OCL1_PY1
                             Status_Flag = 0;
                         }
                         break;
+
+                    
 
                     case 13:
                         int a13 = (int)entrada[i];
@@ -394,8 +484,31 @@ namespace OCL1_PY1
                             auxiliar = "";
                             Status_Flag = 0;
                         }
-
                         break;
+
+                    case 16:
+                        int a16 = (int)entrada[i];
+                        if (a16 >= 48 && a16 <= 57)
+                        {// NUMEROS
+                            Status_Flag = 16;
+                            auxiliar += entrada[i];
+                        }
+                        else if (a16 >= 1 && a16 <= 47)
+                        {
+                            //i = i - 1;
+                            list_Tokens.Add(new Tokens(Tokens_T.Decimal, auxiliar, Saltos, Columnas));
+                            auxiliar = "";
+                            Status_Flag = 0;
+                        }
+                        else
+                        {
+                            auxiliar = entrada[i].ToString();
+                            error_list.Add(new Tokens(Tokens_T.Desconocido, auxiliar, Saltos, Columnas));
+                            auxiliar = "";
+                            Status_Flag = 0;
+                        }
+                        break;
+
                     case 17:
                         int a17 = (int)entrada[i];
                         if(a17 == 74)
@@ -411,6 +524,7 @@ namespace OCL1_PY1
                             Status_Flag = 0;
                         }
                         break;
+
                     case 20:
                         int a20 = (int)entrada[i];
                         if(a20 == 10 )

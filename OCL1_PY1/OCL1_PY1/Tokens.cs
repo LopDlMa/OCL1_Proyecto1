@@ -83,6 +83,7 @@ namespace OCL1_PY1
         ID,
         flecha,
         Separador,
+        Decimal,
         Desconocido
     };
 
@@ -138,6 +139,8 @@ namespace OCL1_PY1
                     return "Flecha";
                 case Tokens_T.Separador:
                     return "Separador";
+                case Tokens_T.Decimal:
+                    return "Decimal";
                 case Tokens_T.Salto_Linea:
                     return "Reservada Saltos de Linea";
                 case Tokens_T.Disyunción:
