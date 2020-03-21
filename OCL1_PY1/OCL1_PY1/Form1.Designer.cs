@@ -102,26 +102,26 @@
             // analizarToolStripMenuItem
             // 
             this.analizarToolStripMenuItem.Name = "analizarToolStripMenuItem";
-            this.analizarToolStripMenuItem.Size = new System.Drawing.Size(210, 26);
+            this.analizarToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.analizarToolStripMenuItem.Text = "Analizar";
             this.analizarToolStripMenuItem.Click += new System.EventHandler(this.analizarToolStripMenuItem_Click);
             // 
             // cargarThompsonToolStripMenuItem
             // 
             this.cargarThompsonToolStripMenuItem.Name = "cargarThompsonToolStripMenuItem";
-            this.cargarThompsonToolStripMenuItem.Size = new System.Drawing.Size(210, 26);
+            this.cargarThompsonToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.cargarThompsonToolStripMenuItem.Text = "Cargar Thompson";
             // 
             // guardarTokensToolStripMenuItem
             // 
             this.guardarTokensToolStripMenuItem.Name = "guardarTokensToolStripMenuItem";
-            this.guardarTokensToolStripMenuItem.Size = new System.Drawing.Size(210, 26);
+            this.guardarTokensToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.guardarTokensToolStripMenuItem.Text = "Guardar Tokens";
             // 
             // guardarErroresToolStripMenuItem
             // 
             this.guardarErroresToolStripMenuItem.Name = "guardarErroresToolStripMenuItem";
-            this.guardarErroresToolStripMenuItem.Size = new System.Drawing.Size(210, 26);
+            this.guardarErroresToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.guardarErroresToolStripMenuItem.Text = "Guardar Errores";
             // 
             // reportesToolStripMenuItem
@@ -135,8 +135,9 @@
             // generarReportesDeErrorToolStripMenuItem
             // 
             this.generarReportesDeErrorToolStripMenuItem.Name = "generarReportesDeErrorToolStripMenuItem";
-            this.generarReportesDeErrorToolStripMenuItem.Size = new System.Drawing.Size(264, 26);
-            this.generarReportesDeErrorToolStripMenuItem.Text = "Generar Reportes de Error";
+            this.generarReportesDeErrorToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.generarReportesDeErrorToolStripMenuItem.Text = "Generar Reportes";
+            this.generarReportesDeErrorToolStripMenuItem.Click += new System.EventHandler(this.generarReportesDeErrorToolStripMenuItem_Click);
             // 
             // tabControl1
             // 

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace OCL1_PY1
 {
@@ -132,6 +133,126 @@ namespace OCL1_PY1
             {
                 MessageBox.Show("Cree más Pestañas", "Word", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
             }
+
+        }
+
+        private void generarReportesDeErrorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ReporteT();
+        }
+        public void ReporteT()
+        {
+            ultimos_lexemas = new List<Tokens>();
+            TabPage myPage = tabControl1.TabPages[tabControl1.SelectedIndex];
+            RichTextBox myRich = (RichTextBox)myPage.Controls[0];
+
+            Scanner scan = new Scanner();
+            scan.Scaning(myRich.Text);
+
+            ultimos_lexemas = (List<Tokens>)scan.list_Tokens;
+
+            // GENERANDO
+
+            XmlTextWriter writer = new XmlTextWriter("Reporte Tokens.xml", System.Text.Encoding.UTF8);
+            writer.WriteStartDocument(true);
+            writer.Formatting = Formatting.Indented;
+            writer.Indentation = 2;
+            writer.WriteStartElement("ListaTokens");
+            foreach(Tokens t in scan.list_Tokens)
+            {
+                NodosToken(t.TokenType.ToString(), t.Value, t.linea,t.columna,writer);
+            }
+            writer.WriteEndElement();
+            writer.WriteEndDocument();
+            writer.Close();
+            MessageBox.Show("REPORTE DE TOKENS CREADO");
+            SaveFileDialog save = new SaveFileDialog();
+            if (save.ShowDialog() == System.Windows.Forms.DialogResult.OK && save.FileName.Length > 0)
+            {
+                rtbx.SaveFile(save.FileName, RichTextBoxStreamType.PlainText);
+                MessageBox.Show("Reporte Generado: \n" + save.FileName);
+                System.IO.File.WriteAllText(save.FileName, writer.ToString());
+            }
+            MessageBox.Show("REPORTE DE ERRORES CREADO");
+
+
+        }
+        private void NodosToken(String ID, String Val, int fila, int columna ,XmlTextWriter writer)
+        {
+            writer.WriteStartElement("Token");
+           
+            writer.WriteStartElement("Nombre");
+            writer.WriteString(ID);
+            writer.WriteEndElement();
+            writer.WriteStartElement("Valor");
+            writer.WriteString(Val);
+            writer.WriteEndElement();
+            writer.WriteStartElement("Fila");
+            writer.WriteString(fila.ToString());
+            writer.WriteEndElement();
+            writer.WriteStartElement("Columna");
+            writer.WriteString(columna.ToString());
+            writer.WriteEndElement();
+            writer.WriteEndElement();
+
+
+        }
+
+        public void ReporteE()
+        {
+            ultimos_errores = new List<Tokens>();
+            TabPage myPage = tabControl1.TabPages[tabControl1.SelectedIndex];
+            RichTextBox myRich = (RichTextBox)myPage.Controls[0];
+
+            Scanner scan = new Scanner();
+            scan.Scaning(myRich.Text);
+
+            ultimos_errores = (List<Tokens>)scan.error_list;
+
+            // GENERANDO
+
+            XmlTextWriter writer = new XmlTextWriter("Reporte Tokens.xml", System.Text.Encoding.UTF8);
+            writer.WriteStartDocument(true);
+            writer.Formatting = Formatting.Indented;
+            writer.Indentation = 2;
+            writer.WriteStartElement("ListaTokens");
+            foreach (Tokens t in scan.error_list)
+            {
+                NodosToken(t.TokenType.ToString(), t.Value, t.linea, t.columna, writer);
+            }
+            writer.WriteEndElement();
+            writer.WriteEndDocument();
+            writer.Close();
+            SaveFileDialog save = new SaveFileDialog();
+            if(save.ShowDialog()== System.Windows.Forms.DialogResult.OK && save.FileName.Length > 0)
+            {
+                rtbx.SaveFile(save.FileName, RichTextBoxStreamType.PlainText);
+                MessageBox.Show("Reporte Generado: \n" + save.FileName);
+                System.IO.File.WriteAllText(save.FileName, writer.ToString());
+            }
+            MessageBox.Show("REPORTE DE ERRORES CREADO");
+
+
+        }
+
+        private void NodosError(String ID, String Val, int fila, int columna, XmlTextWriter writer)
+        {
+            writer.WriteStartElement("Token");
+
+            writer.WriteStartElement("Nombre");
+            writer.WriteString(ID);
+            writer.WriteEndElement();
+            writer.WriteStartElement("Valor");
+            writer.WriteString(Val);
+            writer.WriteEndElement();
+            writer.WriteStartElement("Fila");
+            writer.WriteString(fila.ToString());
+            writer.WriteEndElement();
+            writer.WriteStartElement("Columna");
+            writer.WriteString(columna.ToString());
+            writer.WriteEndElement();
+            writer.WriteEndElement();
+
 
         }
 
