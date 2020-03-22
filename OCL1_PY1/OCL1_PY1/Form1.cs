@@ -20,7 +20,6 @@ namespace OCL1_PY1
         List<Tokens> ultimos_lexemas;
         List<Tokens> ultimos_errores;
         
-        int pestaña = 0;
         public Form1()
         {
             InitializeComponent();
@@ -138,7 +137,7 @@ namespace OCL1_PY1
 
         private void generarReportesDeErrorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ReporteT();
+            
         }
         public void ReporteT()
         {
@@ -166,15 +165,7 @@ namespace OCL1_PY1
             writer.WriteEndDocument();
             writer.Close();
             MessageBox.Show("REPORTE DE TOKENS CREADO");
-            SaveFileDialog save = new SaveFileDialog();
-            if (save.ShowDialog() == System.Windows.Forms.DialogResult.OK && save.FileName.Length > 0)
-            {
-                rtbx.SaveFile(save.FileName, RichTextBoxStreamType.PlainText);
-                MessageBox.Show("Reporte Generado: \n" + save.FileName);
-                System.IO.File.WriteAllText(save.FileName, writer.ToString());
-            }
-            MessageBox.Show("REPORTE DE ERRORES CREADO");
-
+           
 
         }
         private void NodosToken(String ID, String Val, int fila, int columna ,XmlTextWriter writer)
@@ -211,37 +202,27 @@ namespace OCL1_PY1
 
             // GENERANDO
 
-            XmlTextWriter writer = new XmlTextWriter("Reporte Tokens.xml", System.Text.Encoding.UTF8);
+            XmlTextWriter writer = new XmlTextWriter("Reporte Errores.xml", System.Text.Encoding.UTF8);
             writer.WriteStartDocument(true);
             writer.Formatting = Formatting.Indented;
             writer.Indentation = 2;
-            writer.WriteStartElement("ListaTokens");
+            writer.WriteStartElement("ListaErrores");
             foreach (Tokens t in scan.error_list)
             {
-                NodosToken(t.TokenType.ToString(), t.Value, t.linea, t.columna, writer);
+                NodosError(t.Value, t.linea, t.columna, writer);
             }
             writer.WriteEndElement();
             writer.WriteEndDocument();
             writer.Close();
-            SaveFileDialog save = new SaveFileDialog();
-            if(save.ShowDialog()== System.Windows.Forms.DialogResult.OK && save.FileName.Length > 0)
-            {
-                rtbx.SaveFile(save.FileName, RichTextBoxStreamType.PlainText);
-                MessageBox.Show("Reporte Generado: \n" + save.FileName);
-                System.IO.File.WriteAllText(save.FileName, writer.ToString());
-            }
-            MessageBox.Show("REPORTE DE ERRORES CREADO");
-
+     
 
         }
 
-        private void NodosError(String ID, String Val, int fila, int columna, XmlTextWriter writer)
+        private void NodosError(String Val, int fila, int columna, XmlTextWriter writer)
         {
-            writer.WriteStartElement("Token");
+            writer.WriteStartElement("Error");
 
-            writer.WriteStartElement("Nombre");
-            writer.WriteString(ID);
-            writer.WriteEndElement();
+            
             writer.WriteStartElement("Valor");
             writer.WriteString(Val);
             writer.WriteEndElement();
@@ -256,5 +237,15 @@ namespace OCL1_PY1
 
         }
 
+        private void guardarTokensToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            ReporteT();
+        }
+
+        private void guardarErroresToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ReporteE(); 
+        }
     }
 }

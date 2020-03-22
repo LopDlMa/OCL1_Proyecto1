@@ -7,7 +7,7 @@ using System.Xml;
 
 namespace OCL1_PY1
 {
-    class XMLReader
+    class Thompson
     {
     }
 }

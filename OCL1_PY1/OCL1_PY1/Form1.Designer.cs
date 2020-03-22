@@ -41,7 +41,15 @@
             this.reportesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.generarReportesDeErrorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -53,7 +61,7 @@
             this.reportesToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(800, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1498, 28);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -102,27 +110,29 @@
             // analizarToolStripMenuItem
             // 
             this.analizarToolStripMenuItem.Name = "analizarToolStripMenuItem";
-            this.analizarToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.analizarToolStripMenuItem.Size = new System.Drawing.Size(210, 26);
             this.analizarToolStripMenuItem.Text = "Analizar";
             this.analizarToolStripMenuItem.Click += new System.EventHandler(this.analizarToolStripMenuItem_Click);
             // 
             // cargarThompsonToolStripMenuItem
             // 
             this.cargarThompsonToolStripMenuItem.Name = "cargarThompsonToolStripMenuItem";
-            this.cargarThompsonToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.cargarThompsonToolStripMenuItem.Size = new System.Drawing.Size(210, 26);
             this.cargarThompsonToolStripMenuItem.Text = "Cargar Thompson";
             // 
             // guardarTokensToolStripMenuItem
             // 
             this.guardarTokensToolStripMenuItem.Name = "guardarTokensToolStripMenuItem";
-            this.guardarTokensToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.guardarTokensToolStripMenuItem.Size = new System.Drawing.Size(210, 26);
             this.guardarTokensToolStripMenuItem.Text = "Guardar Tokens";
+            this.guardarTokensToolStripMenuItem.Click += new System.EventHandler(this.guardarTokensToolStripMenuItem_Click);
             // 
             // guardarErroresToolStripMenuItem
             // 
             this.guardarErroresToolStripMenuItem.Name = "guardarErroresToolStripMenuItem";
-            this.guardarErroresToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.guardarErroresToolStripMenuItem.Size = new System.Drawing.Size(210, 26);
             this.guardarErroresToolStripMenuItem.Text = "Guardar Errores";
+            this.guardarErroresToolStripMenuItem.Click += new System.EventHandler(this.guardarErroresToolStripMenuItem_Click);
             // 
             // reportesToolStripMenuItem
             // 
@@ -135,7 +145,7 @@
             // generarReportesDeErrorToolStripMenuItem
             // 
             this.generarReportesDeErrorToolStripMenuItem.Name = "generarReportesDeErrorToolStripMenuItem";
-            this.generarReportesDeErrorToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.generarReportesDeErrorToolStripMenuItem.Size = new System.Drawing.Size(207, 26);
             this.generarReportesDeErrorToolStripMenuItem.Text = "Generar Reportes";
             this.generarReportesDeErrorToolStripMenuItem.Click += new System.EventHandler(this.generarReportesDeErrorToolStripMenuItem_Click);
             // 
@@ -144,14 +154,63 @@
             this.tabControl1.Location = new System.Drawing.Point(12, 31);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(566, 397);
+            this.tabControl1.Size = new System.Drawing.Size(646, 885);
             this.tabControl1.TabIndex = 1;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(680, 37);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(798, 286);
+            this.pictureBox1.TabIndex = 2;
+            this.pictureBox1.TabStop = false;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(1102, 340);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(175, 39);
+            this.button1.TabIndex = 3;
+            this.button1.Text = "Siguiente";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(914, 340);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(164, 40);
+            this.button2.TabIndex = 4;
+            this.button2.Text = "Anterior";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(724, 393);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowHeadersWidth = 51;
+            this.dataGridView1.RowTemplate.Height = 24;
+            this.dataGridView1.Size = new System.Drawing.Size(743, 178);
+            this.dataGridView1.TabIndex = 5;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Location = new System.Drawing.Point(692, 612);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(786, 304);
+            this.pictureBox2.TabIndex = 6;
+            this.pictureBox2.TabStop = false;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1498, 954);
+            this.Controls.Add(this.pictureBox2);
+            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -159,6 +218,9 @@
             this.Text = "Form1";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -179,6 +241,11 @@
         private System.Windows.Forms.ToolStripMenuItem generarReportesDeErrorToolStripMenuItem;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.ToolStripMenuItem analizarToolStripMenuItem;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.PictureBox pictureBox2;
     }
 }
 
