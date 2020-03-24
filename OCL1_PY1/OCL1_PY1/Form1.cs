@@ -19,7 +19,7 @@ namespace OCL1_PY1
         RichTextBox rtbx = new RichTextBox();
         List<Tokens> ultimos_lexemas;
         List<Tokens> ultimos_errores;
-        
+        public static String grafo;
         public Form1()
         {
             InitializeComponent();
@@ -137,7 +137,7 @@ namespace OCL1_PY1
 
         private void generarReportesDeErrorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
+            estructuraDot();
         }
         public void ReporteT()
         {
@@ -247,5 +247,152 @@ namespace OCL1_PY1
         {
             ReporteE(); 
         }
+        public String DOT()
+        {
+            grafo = "digraph Thompson{";
+            
+            grafo += "}";
+
+            return grafo;
+        }
+
+      
+        public void estructuraDot()
+        {
+            
+            for (int i= 0; i < ultimos_lexemas.Count; i++)
+            {
+
+                if (ultimos_lexemas[i].TokenType.ToString().Equals("ID")&& ultimos_lexemas[i+1].TokenType.ToString().Equals("flecha")) 
+                {
+                    List<Tokens> respaldo = new List<Tokens>();
+                    for (int j = i+2; j < ultimos_lexemas.Count; j++) 
+                    {
+                        if (!ultimos_lexemas[j].TokenType.ToString().Equals("Comilla_Doble"))
+                        {
+                            respaldo.Add(ultimos_lexemas[j]);
+                        }
+                        if (ultimos_lexemas[j+1].TokenType.ToString().Equals("Punto_Coma")) 
+                        {
+                            string dato = Convertir(respaldo);
+                            Console.WriteLine(dato);
+                            string obtenido = Ordenar(dato);
+                            Console.WriteLine(obtenido);
+                            Console.WriteLine("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
+                            break;
+                        }
+                    }
+                }
+
+            }
+        
+        }
+
+        private string Convertir(List<Tokens> tkn)
+        {
+            string retorno = "";
+            for (int i=0;i<tkn.Count;i++)
+            {
+                retorno += tkn[i].Value;
+                if (i < tkn.Count - 1) {
+                    retorno += " ";
+                }
+            }
+            return retorno;
+        }
+        private string Ordenar(string t)
+        {
+                
+                
+                
+                Stack<string> s=new Stack<string>();
+
+
+                // length of expression 
+                int length = t.Length;
+
+                // reading from right to left 
+                for (int i = length - 1; i >= 0; i--)
+                {
+
+                // check if symbol is operator 
+                if (isOperator(Char.ToString(t[i])))
+                {
+
+                    // pop two operands from stack 
+                    string op1 = s.Peek(); s.Pop();
+                    string op2 = s.Peek(); s.Pop();
+
+                    // concat the operands and operator 
+                    string temp = "(" + op1 + t[i] + op2 + ")";
+
+                    // Push string temp back to stack 
+                    s.Push(temp);
+                }
+
+                // if symbol is an operand 
+                else
+                {
+                    
+                    if (Char.ToString(t[i]).Equals(" "))
+                    {
+                        string palabra = "";
+                        for (int a = i; a < length; a++)
+                        {
+                            if (Char.ToString(t[a]).Equals(" "))
+                            {
+                                break;
+                            }
+                            palabra += t[a];
+                            Console.WriteLine(palabra);
+                        }
+                        Console.WriteLine("-++++++++++++-");
+                        // pushs the operand to the stack 
+                        s.Push(palabra);
+                    }
+                }
+                }
+
+                // Stack now contains the Infix expression 
+                return s.Peek();
+            
+
+        }
+        bool isOperator(string x)
+        {
+            switch (x)
+            {
+                case ".":
+                    return true;
+                   
+                case "|":
+                    return true;
+                   
+                case "+":
+                    return true;
+                   
+                case "*":
+                    return true;
+                   
+                case "?":
+                    return true;
+                  
+                default:
+                  return  false;
+
+            }
+        }
+
+        public void generarImagen()
+        {
+            String graph = DOT();
+            WINGRAPHVIZLib.DOT dot = new WINGRAPHVIZLib.DOT();
+            WINGRAPHVIZLib.BinaryImage img = dot.ToPNG(graph);
+            img.Save("thompson" + 1 + ".png");
+        } 
+
+   
+
+
     }
 }

@@ -6,54 +6,7 @@ using System.Threading.Tasks;
 
 namespace OCL1_PY1
 {
-    /* enum Tokens_T
-     {   Dos_Puntos,
-         Error,
-         Numero,
-         Palabra,
-         ID
-     };
-
-         public String getTypeString()
-         {
-             switch (TokenType)
-             {
-                 case Tokens_T.Disyuncion:
-                     return "|";
-                 case Tokens_T.Dos_Puntos:
-                     return ":";
-                 case Tokens_T.ID:
-                     return "ID";
-                 case Tokens_T.Llave_A:
-                     return "{";
-                 case Tokens_T.Llave_C:
-                     return "}";
-                 case Tokens_T.Numero:
-                     return "Número";
-                 case Tokens_T.Palabra:
-                     return "Palabra";
-                 case Tokens_T.Salto_de_Lineas:
-                     return "Salto de Linea";
-                 case Tokens_T.Signos:
-                     return "Signos";
-                 case Tokens_T.Tabulacion:
-                     return "Tabulación";
-                 case Tokens_T.Todo_A:
-                     return "[:";
-                 case Tokens_T.Todo_C:
-                     return ":]";
-                 case Tokens_T.Una_o_Mas:
-                     return "+";
-                 case Tokens_T.Error:
-                     return "Error Léxico: No reconocido";
-                 default:
-                     return "Léxico: Desconocido";
-             }
-         }
-
-     }
- }
- */
+ 
     enum Tokens_T
     {
         Comentario_M,
@@ -81,6 +34,7 @@ namespace OCL1_PY1
         Numero,
         Palabra,
         ID,
+        Guion_Bajo,
         flecha,
         Separador,
         Decimal,
@@ -125,6 +79,8 @@ namespace OCL1_PY1
                     return "Reservada Conjunto";
                 case Tokens_T.Conjunto:
                     return "Reservada CONJ";
+            case Tokens_T.Guion_Bajo:
+                    return "Guion Bajo";
                 case Tokens_T.Conjunto_Range:
                     return "Reservada Conjunto Range";
                 case Tokens_T.Llave_A:

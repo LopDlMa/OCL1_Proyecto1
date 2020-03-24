@@ -179,6 +179,13 @@ namespace OCL1_PY1
                             Status_Flag = 14;
                             auxiliar += entrada[i];
                         }
+                        else if (a == 95)
+                        {
+                            auxiliar += entrada[i];
+                            list_Tokens.Add(new Tokens(Tokens_T.Guion_Bajo, auxiliar, Saltos, Columnas));
+                            auxiliar = "";
+                            Status_Flag = 0;
+                        }
                         else
                         {
                             auxiliar = entrada[i].ToString();
