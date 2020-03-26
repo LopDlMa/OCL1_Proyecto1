@@ -258,7 +258,23 @@ namespace OCL1_PY1
         private static String DOT()
         {
             grafo += "digraph T{";
-            grafo += "Hello->World;";
+            grafo += "0->1;";
+            grafo += "0->7;";
+            grafo += "1->2;";
+            grafo += "2->3;";
+            grafo += "1->4;";
+            grafo += "4->5;";
+            grafo += "5->6;";
+            grafo += "3->6;";
+            grafo += "7->8;";
+            grafo += "7->10;";
+            grafo += "8->9;";
+            grafo += "10->11;";
+            grafo += "9->12;";
+            grafo += "11->12;";
+            grafo += "12->13;";
+            grafo += "6->13;";
+
             grafo += "}";
 
             return grafo;
@@ -286,9 +302,8 @@ namespace OCL1_PY1
                             
                             ////Console.WriteLine(PRE);
                             string done = Ordenar(respaldo);
-                            
-
-
+                            Console.WriteLine(done);
+                           // dibujardot(done);
                             break;
                         }
                     }
@@ -321,7 +336,7 @@ namespace OCL1_PY1
             string res = "";
             string derecha = "";
             string izquierda = "";
-            Pila = new Pila(PRE.Length);
+            Pila = new Pila(entra.Count);
 
             for (var pivote = entra.Count-1; pivote >=0; pivote--)
             {
@@ -337,6 +352,11 @@ namespace OCL1_PY1
                         Console.WriteLine(entra.Count);
                         Pila.push(Pila.pop() + entra[pivote].Value);
                     }
+                    else if ((((pivote-1)>=0)&&isOperator(entra[pivote-1].Value)&&entra[pivote].Value.Equals("+"))|| (((pivote - 1) >= 0) && isOperator(entra[pivote - 1].Value) && entra[pivote].Value.Equals("*"))|| (((pivote - 1) >= 0) && isOperator(entra[pivote - 1].Value) && entra[pivote].Value.Equals("?")))
+                    {
+                        Pila.push(Pila.pop() + entra[pivote].Value);
+                    }
+
                     else
                     {
                         izquierda = Pila.pop();
@@ -378,33 +398,137 @@ namespace OCL1_PY1
             }
         }
 
-        [HandleProcessCorruptedStateExceptions]
-        [SecurityCritical]
-        private static void generarImagen()
+        private void dibujardot(string datos) 
+        {
+            int nodo = 0;
+            for (int i = 0; i < datos.Length; i++)
+            {
+                String palabra = "";
+                if (datos[i+1].Equals('(')) 
+                {
+                    for (int a = i+2; a<datos.Length;a++)
+                    {
+                        if (datos[a].Equals(')')) 
+                        {
+                            bool bandera = true;
+                            for (int b=i+2; b<a;b++)
+                            {
+                                if (datos[b].Equals('('))
+                                {
+                                    bandera = false;
+                                    break;
+                                }
+                            }
+                            if (bandera == false)
+                            {
+                                break;
+                            }
+                            else 
+                            {
+                                for (int e =i+2; e<a;e++) 
+                                {
+                                    if (datos[e].Equals('+'))
+                                    {
+                                        grafo += nodo + "->" + (nodo + 1) + ";";//0-> 1              
+                                        nodo++;
+                                        int aux = nodo;
+                                        grafo += nodo + "->" + (nodo + 1) + " [ label= \"ε \"];";//1->2
+                                        nodo++;
+                                        grafo += nodo + "->" + (nodo + 1) + ";";//2->3
+                                        grafo += (nodo+1) + "->" + nodo  + " [ label= \"ε \"];";//3->2
+                                        nodo++;
+                                        grafo += nodo + "->" + (nodo + 1) + " [ label= \"ε \"];";//3->4
+                                        grafo += (nodo + 1) + "->" + aux + " [ label= \"ε \"];";//4->1
+                                        nodo++;
+                                    }
+                                    else if (datos[e].Equals('.'))
+                                    {
+                                        grafo += nodo + "->" + (nodo + 1) + ";";//0-> 1              
+                                        nodo++;
+                                        grafo += nodo + "->" + (nodo + 1) + " ;";//1->2
+                                        nodo++;
+                                    }
+                                    else if (datos[e].Equals('*'))
+                                    {
+                                      
+                                        int aux = nodo;
+                                        grafo += nodo + "->" + (nodo + 1) + " [ label= \"ε \"];";//1->2
+                                        nodo++;
+                                        grafo += nodo + "->" + (nodo + 1) + ";";//2->3
+                                        grafo += (nodo + 1) + "->" + nodo + " [ label= \"ε \"];";//3->2
+                                        nodo++;
+                                        grafo += nodo + "->" + (nodo + 1) + " [ label= \"ε \"];";//3->4
+                                        grafo += (nodo + 1) + "->" + aux + " [ label= \"ε \"];";//4->1
+                                        nodo++;
+                                    }
+                                    else if (datos[e].Equals('|'))
+                                    {
+                                        int aux = nodo;
+                                        grafo += nodo + "->" + (nodo + 1) + "[ label= \"ε \"];";//0-> 1  
+                                        nodo++;
+                                        grafo += aux + "->" + (nodo + 2) + " [ label= \"ε \"];";//0->3
+                                        grafo += nodo + "->" + (nodo + 1) + ";";//1->2
+                                        nodo++;
+                                        aux = nodo;
+                                        nodo++;
+                                        grafo += nodo + "->" + (nodo + 1) + " [ label= \"ε \"];";//3->4
+                                        nodo++;
+                                        grafo += nodo + "->" + (nodo + 1) + " [ label= \"ε \"];";//4->5
+                                        grafo += aux + "->" + (nodo + 1) + " [ label= \"ε \"];";//2->5
+                                        nodo++;
+                                    }
+                                    else if (datos[e].Equals('?'))
+                                    {
+                                        int aux = nodo;
+                                        grafo += nodo + "->" + (nodo + 1) + "[ label= \"ε \"];";//0-> 1  
+                                        nodo++;
+                                        grafo += aux + "->" + (nodo + 2) + " [ label= \"ε \"];";//0->3
+                                        grafo += nodo + "->" + (nodo + 1) + ";";//1->2
+                                        nodo++;
+                                        aux = nodo;
+                                        nodo++;
+                                        grafo += nodo + "->" + (nodo + 1) + " [ label= \"ε \"];";//3->4
+                                        nodo++;
+                                        grafo += nodo + "->" + (nodo + 1) + " [ label= \"ε \"];";//4->5
+                                        grafo += aux + "->" + (nodo + 1) + " [ label= \"ε \"];";//2->5
+                                        nodo++;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+     
+        private static Image generarImagen(String grafico)
         {
             
-            String graph = DOT();
+          //  String graph = DOT();
          
-            try
-            {
+            
+               
                 WINGRAPHVIZLib.DOT dot = new WINGRAPHVIZLib.DOT();
-                WINGRAPHVIZLib.BinaryImage img = dot.ToJPEG(graph);
+                WINGRAPHVIZLib.BinaryImage img = dot.ToJPEG(grafico);
                 byte[] imageBytes = Convert.FromBase64String(img.ToBase64String());
                 MemoryStream ms = new MemoryStream(imageBytes, 0, imageBytes.Length);
                 ms.Write(imageBytes, 0, imageBytes.Length);
                 Image image = Image.FromStream(ms, true);
-            }
-            catch( Exception e)
-            {
-               Console.WriteLine( "ERROROROROR");
-            }
+                return image;
+                //img.Save(@"C:\\Users\PC\\Desktop\\thompson.jpg");
+          
             
            
         }
 
         private void cargarThompsonToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            generarImagen();
+            panel2.AutoScroll = true;
+           
+            Image img = generarImagen(DOT());
+            pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+            pictureBox1.Image = img;
         }
     }
 }
