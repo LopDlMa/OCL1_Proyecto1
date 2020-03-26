@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Collections;
 using System.Xml;
+using System.Security;
+using System.Runtime.ExceptionServices;
 
 namespace OCL1_PY1
 {
@@ -25,7 +27,7 @@ namespace OCL1_PY1
         public string IN = "";
         public string PRE = "";
         public string eva = "";
-        private Stack Pila;
+        private Pila Pila;
         public Form1()
         {
             InitializeComponent();
@@ -253,10 +255,10 @@ namespace OCL1_PY1
         {
             ReporteE(); 
         }
-        public String DOT()
+        private static String DOT()
         {
-            grafo = "digraph Thompson{";
-            
+            grafo += "digraph T{";
+            grafo += "Hello->World;";
             grafo += "}";
 
             return grafo;
@@ -280,15 +282,13 @@ namespace OCL1_PY1
                         }
                         if (ultimos_lexemas[j+1].TokenType.ToString().Equals("Punto_Coma")) 
                         {
-                            IN = Convertir(respaldo);
+                            ////PRE = Convertir(respaldo);
                             
-                            //string dato = Convertir(respaldo);
-                            Console.WriteLine(IN);
-                            string done = Ordenar();
-                            Console.WriteLine(done);
-                            //string obtenido = Ordenar(dato.ToCharArray(), respaldo);
+                            ////Console.WriteLine(PRE);
+                            string done = Ordenar(respaldo);
+                            
 
-                            Console.WriteLine("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
+
                             break;
                         }
                     }
@@ -310,138 +310,66 @@ namespace OCL1_PY1
             }
             return retorno;
         }
-        //private string Ordenar(char[] t, List<Tokens> respaldo)
-        //{
-                
-                
-                
-        //        Stack s=new Stack();
-
-
-        //        // length of expression 
-        //        int length = t.Length;
-
-        //        // reading from right to left 
-        //        for (int i = length - 1; i >= 0; i--)
-        //        {
-
-        //        // check if symbol is operator 
-        //        if (isOperator(Char.ToString(t[i])))
-        //        {
-        //            // pop two operands from stack 
-        //            string op1 = s.Pop().ToString();
-        //            Console.WriteLine(op1 + " PEEK1");
-        //          //  s.Pop();
-        //            string op2 = s.Peek().ToString();
-        //            Console.WriteLine(op2 + " PEEK2");
-        //            s.Pop();
-
-        //            // concat the operands and operator 
-        //            string temp = "(" + op1 + t[i] + op2 + ")";
-        //            Console.WriteLine(temp);
-        //            // Push string temp back to stack 
-        //            s.Push(temp);
-        //            Console.WriteLine(s.Peek()+" resultado");
-        //        }
-
-        //        // if symbol is an operand 
-        //        else
-        //        {
-        //            if (Char.ToString(t[i]).Equals(" "))
-        //            {
-        //                string palabra = "";
-        //                for (int a = i+1; a < length; a++)
-        //                {
-        //                    palabra += Char.ToString(t[a]);
-        //                    foreach (Tokens buscar in respaldo)
-        //                    {
-        //                        if (buscar.Value.Equals(palabra))
-        //                        {
-        //                            Console.WriteLine(palabra);
-        //                            break;
-        //                        }
-        //                    }
-                            
-        //                }
-        //                Console.WriteLine("-++++++++++++-");
-        //                // pushs the operand to the stack 
-        //                s.Push(palabra);
-
-        //            }
-        //        }
-        //        }
-
-        //        // Stack now contains the Infix expression 
-        //        return s.Peek().ToString();
-            
-
-        //}
-        private string Ordenar()
+        private string Ordenar(List<Tokens> entra)
         {
-            IN = OrdenarP();
+            IN = OrdenarP(entra);
             return IN;
         }
         
-        private string OrdenarP()
+        private string OrdenarP(List<Tokens> entra)
         {
             string res = "";
             string derecha = "";
             string izquierda = "";
-            Pila = new Stack(PRE.Length);
+            Pila = new Pila(PRE.Length);
 
-            for (var pivote = PRE.Length-1; pivote >=0; pivote--)
+            for (var pivote = entra.Count-1; pivote >=0; pivote--)
             {
-                if (isOperator(PRE[pivote]))
+                
+                if (isOperator(entra[pivote].Value))
                 {
-                    izquierda = Pila.Pop().ToString();
-                    derecha = Pila.Pop().ToString();
-                    Pila.Push("("+izquierda+PRE[pivote]+derecha+")");
-                }
-                else if (PRE[pivote] == ' ')
-                {
-                    var nuevo = "";
-                    var novo = ' ';
-                    while (true)
+                    if ((isOperator(entra[pivote + 1].Value) && entra[pivote].Value.Equals("+"))|| (isOperator(entra[pivote + 1].Value) && entra[pivote].Value.Equals("*"))||(isOperator(entra[pivote + 1].Value) && entra[pivote].Value.Equals("?")))
                     {
-                        if(pivote >= 0)
-                        {
-                            pivote--;
-                        }
-                        if (novo==' ')
-                        {
-                            break;
-
-                        }
-                        nuevo = novo + nuevo;
+                        Pila.push(Pila.pop() + entra[pivote].Value);
                     }
-                    Pila.Push(nuevo);
+                    else if (((pivote+1)==(entra.Count-1) && entra[pivote].Value.Equals("+"))|| ((pivote + 1) == (entra.Count - 1) && entra[pivote].Value.Equals("*"))|| ((pivote + 1) == (entra.Count - 1) && entra[pivote].Value.Equals("?"))) 
+                    {
+                        Console.WriteLine(entra.Count);
+                        Pila.push(Pila.pop() + entra[pivote].Value);
+                    }
+                    else
+                    {
+                        izquierda = Pila.pop();
+                        derecha = Pila.pop();
+                        Pila.push("(" + izquierda + entra[pivote].Value + derecha + ")");
+                    }
                 }
-                else if (PRE[pivote] != ' ')
-                {
-                    Pila.Push(PRE[pivote].ToString());
+                else {
+                    Console.WriteLine(entra[pivote].Value);
+                    Pila.push(entra[pivote].Value);
                 }
             }
-            res += Pila.Pop();
+            res += Pila.pop();
             return res;
         }
 
-        private bool isOperator(Char x)
+        private bool isOperator(string x)
         {
             switch (x)
             {
-                case '.':
+                case ".":
                     return true;
                    
-                case '|':
+                case "|":
                     return true;
                    
-                case '+':
+                case "+":
                     return true;
                    
-                case '*':
+                case "*":
                     return true;
                    
-                case '?':
+                case "?":
                     return true;
                   
                 default:
@@ -450,32 +378,33 @@ namespace OCL1_PY1
             }
         }
 
-        private short prioridades (char Simbolo)
+        [HandleProcessCorruptedStateExceptions]
+        [SecurityCritical]
+        private static void generarImagen()
         {
-            switch (Simbolo)
+            
+            String graph = DOT();
+         
+            try
             {
-                case '+':
-                case '*':
-                case '?':
-                    return 2;
-                case '|':
-                case '.':
-                    return 1;
-
+                WINGRAPHVIZLib.DOT dot = new WINGRAPHVIZLib.DOT();
+                WINGRAPHVIZLib.BinaryImage img = dot.ToJPEG(graph);
+                byte[] imageBytes = Convert.FromBase64String(img.ToBase64String());
+                MemoryStream ms = new MemoryStream(imageBytes, 0, imageBytes.Length);
+                ms.Write(imageBytes, 0, imageBytes.Length);
+                Image image = Image.FromStream(ms, true);
             }
-            return 0;
+            catch( Exception e)
+            {
+               Console.WriteLine( "ERROROROROR");
+            }
+            
+           
         }
 
-        public void generarImagen()
+        private void cargarThompsonToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            String graph = DOT();
-            WINGRAPHVIZLib.DOT dot = new WINGRAPHVIZLib.DOT();
-            WINGRAPHVIZLib.BinaryImage img = dot.ToPNG(graph);
-            img.Save("thompson" + 1 + ".png");
-        } 
-
-   
-
-
+            generarImagen();
+        }
     }
 }

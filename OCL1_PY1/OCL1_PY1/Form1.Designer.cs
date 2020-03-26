@@ -46,9 +46,9 @@
             this.button2 = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
-            this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
+            this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -114,27 +114,28 @@
             // analizarToolStripMenuItem
             // 
             this.analizarToolStripMenuItem.Name = "analizarToolStripMenuItem";
-            this.analizarToolStripMenuItem.Size = new System.Drawing.Size(210, 26);
+            this.analizarToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.analizarToolStripMenuItem.Text = "Analizar";
             this.analizarToolStripMenuItem.Click += new System.EventHandler(this.analizarToolStripMenuItem_Click);
             // 
             // cargarThompsonToolStripMenuItem
             // 
             this.cargarThompsonToolStripMenuItem.Name = "cargarThompsonToolStripMenuItem";
-            this.cargarThompsonToolStripMenuItem.Size = new System.Drawing.Size(210, 26);
+            this.cargarThompsonToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.cargarThompsonToolStripMenuItem.Text = "Cargar Thompson";
+            this.cargarThompsonToolStripMenuItem.Click += new System.EventHandler(this.cargarThompsonToolStripMenuItem_Click);
             // 
             // guardarTokensToolStripMenuItem
             // 
             this.guardarTokensToolStripMenuItem.Name = "guardarTokensToolStripMenuItem";
-            this.guardarTokensToolStripMenuItem.Size = new System.Drawing.Size(210, 26);
+            this.guardarTokensToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.guardarTokensToolStripMenuItem.Text = "Guardar Tokens";
             this.guardarTokensToolStripMenuItem.Click += new System.EventHandler(this.guardarTokensToolStripMenuItem_Click);
             // 
             // guardarErroresToolStripMenuItem
             // 
             this.guardarErroresToolStripMenuItem.Name = "guardarErroresToolStripMenuItem";
-            this.guardarErroresToolStripMenuItem.Size = new System.Drawing.Size(210, 26);
+            this.guardarErroresToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.guardarErroresToolStripMenuItem.Text = "Guardar Errores";
             this.guardarErroresToolStripMenuItem.Click += new System.EventHandler(this.guardarErroresToolStripMenuItem_Click);
             // 
@@ -205,20 +206,6 @@
             this.panel1.Size = new System.Drawing.Size(786, 159);
             this.panel1.TabIndex = 7;
             // 
-            // hScrollBar1
-            // 
-            this.hScrollBar1.Location = new System.Drawing.Point(4, 137);
-            this.hScrollBar1.Name = "hScrollBar1";
-            this.hScrollBar1.Size = new System.Drawing.Size(782, 21);
-            this.hScrollBar1.TabIndex = 0;
-            // 
-            // vScrollBar1
-            // 
-            this.vScrollBar1.Location = new System.Drawing.Point(764, 0);
-            this.vScrollBar1.Name = "vScrollBar1";
-            this.vScrollBar1.Size = new System.Drawing.Size(22, 137);
-            this.vScrollBar1.TabIndex = 1;
-            // 
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -228,6 +215,20 @@
             this.dataGridView1.RowTemplate.Height = 24;
             this.dataGridView1.Size = new System.Drawing.Size(761, 134);
             this.dataGridView1.TabIndex = 2;
+            // 
+            // vScrollBar1
+            // 
+            this.vScrollBar1.Location = new System.Drawing.Point(764, 0);
+            this.vScrollBar1.Name = "vScrollBar1";
+            this.vScrollBar1.Size = new System.Drawing.Size(22, 137);
+            this.vScrollBar1.TabIndex = 1;
+            // 
+            // hScrollBar1
+            // 
+            this.hScrollBar1.Location = new System.Drawing.Point(4, 137);
+            this.hScrollBar1.Name = "hScrollBar1";
+            this.hScrollBar1.Size = new System.Drawing.Size(782, 21);
+            this.hScrollBar1.TabIndex = 0;
             // 
             // Form1
             // 
