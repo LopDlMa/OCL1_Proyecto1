@@ -22,12 +22,11 @@ namespace OCL1_PY1
         RichTextBox rtbx = new RichTextBox();
         List<Tokens> ultimos_lexemas;
         List<Tokens> ultimos_errores;
-        char[] lista;
         public static String grafo;
         public string IN = "";
-        public string PRE = "";
         public string eva = "";
         private Pila Pila;
+        private int nodo = 0;
         public Form1()
         {
             InitializeComponent();
@@ -145,7 +144,7 @@ namespace OCL1_PY1
 
         private void generarReportesDeErrorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            estructuraDot();
+            
         }
         public void ReporteT()
         {
@@ -255,32 +254,16 @@ namespace OCL1_PY1
         {
             ReporteE(); 
         }
-        private static String DOT()
+        public String DOT()
         {
             grafo += "digraph T{";
-            grafo += "0->1;";
-            grafo += "0->7;";
-            grafo += "1->2;";
-            grafo += "2->3;";
-            grafo += "1->4;";
-            grafo += "4->5;";
-            grafo += "5->6;";
-            grafo += "3->6;";
-            grafo += "7->8;";
-            grafo += "7->10;";
-            grafo += "8->9;";
-            grafo += "10->11;";
-            grafo += "9->12;";
-            grafo += "11->12;";
-            grafo += "12->13;";
-            grafo += "6->13;";
+            grafo += "rankdir = LR;";
+            estructuraDot();
 
             grafo += "}";
 
             return grafo;
         }
-
-      
         public void estructuraDot()
         {
             
@@ -298,12 +281,11 @@ namespace OCL1_PY1
                         }
                         if (ultimos_lexemas[j+1].TokenType.ToString().Equals("Punto_Coma")) 
                         {
-                            ////PRE = Convertir(respaldo);
-                            
-                            ////Console.WriteLine(PRE);
+                            nodo = 0;
                             string done = Ordenar(respaldo);
                             Console.WriteLine(done);
-                           // dibujardot(done);
+                            dibujardot(done);
+                       
                             break;
                         }
                     }
@@ -312,19 +294,18 @@ namespace OCL1_PY1
             }
         
         }
-
-        private string Convertir(List<Tokens> tkn)
-        {
-            string retorno = "";
-            for (int i=0;i<tkn.Count;i++)
-            {
-                retorno += tkn[i].Value;
-                if (i < tkn.Count - 1) {
-                    retorno += " ";
-                }
-            }
-            return retorno;
-        }
+        //private string Convertir(List<Tokens> tkn)
+        //{
+        //    string retorno = "";
+        //    for (int i=0;i<tkn.Count;i++)
+        //    {
+        //        retorno += tkn[i].Value;
+        //        if (i < tkn.Count - 1) {
+        //            retorno += " ";
+        //        }
+        //    }
+        //    return retorno;
+        //}
         private string Ordenar(List<Tokens> entra)
         {
             IN = OrdenarP(entra);
@@ -349,7 +330,6 @@ namespace OCL1_PY1
                     }
                     else if (((pivote+1)==(entra.Count-1) && entra[pivote].Value.Equals("+"))|| ((pivote + 1) == (entra.Count - 1) && entra[pivote].Value.Equals("*"))|| ((pivote + 1) == (entra.Count - 1) && entra[pivote].Value.Equals("?"))) 
                     {
-                        Console.WriteLine(entra.Count);
                         Pila.push(Pila.pop() + entra[pivote].Value);
                     }
                     else if ((((pivote-1)>=0)&&isOperator(entra[pivote-1].Value)&&entra[pivote].Value.Equals("+"))|| (((pivote - 1) >= 0) && isOperator(entra[pivote - 1].Value) && entra[pivote].Value.Equals("*"))|| (((pivote - 1) >= 0) && isOperator(entra[pivote - 1].Value) && entra[pivote].Value.Equals("?")))
@@ -365,7 +345,6 @@ namespace OCL1_PY1
                     }
                 }
                 else {
-                    Console.WriteLine(entra[pivote].Value);
                     Pila.push(entra[pivote].Value);
                 }
             }
@@ -400,21 +379,121 @@ namespace OCL1_PY1
 
         private void dibujardot(string datos) 
         {
-            int nodo = 0;
+            
             for (int i = 0; i < datos.Length; i++)
             {
-                String palabra = "";
-                if (datos[i+1].Equals('(')) 
+                if (((i + 3) < datos.Length)&&datos[i+1].Equals('(')) //(a)
+
                 {
                     for (int a = i+2; a<datos.Length;a++)
                     {
-                        if (datos[a].Equals(')')) 
+                        if (datos[a].Equals(')'))
                         {
                             bool bandera = true;
-                            for (int b=i+2; b<a;b++)
+                            for (int b = i + 2; b < a; b++)
                             {
                                 if (datos[b].Equals('('))
                                 {
+                                    for (int c =i+2; c<b;c++) 
+                                    {
+                                        if (datos[c].Equals('+'))
+                                        {
+                                            if (datos[c + 1].Equals('.')|| datos[c + 1].Equals('|'))
+                                            {
+                                                string dato = palabra(i+2, c - 1, datos);
+                                                cerPos(dato);
+                                            } 
+                                        }
+                                        if (datos[c].Equals('.'))
+                                        {
+                                            if ((datos[c - 1].Equals('+')&&!datos[c + 1].Equals('(')) || (datos[c - 1].Equals('*')&&!datos[c + 1].Equals('(')) || (datos[c - 1].Equals('?')&&!datos[c + 1].Equals('(')))
+                                            {
+                                                string dato = palabra(c+1,b,datos);
+                                                grafo += nodo + "->" + (nodo + 1) + "[ label= \"" + dato + "\"] ;";//1->2
+                                                nodo++;
+                                            }
+                                            else if ((datos[c-1].Equals("+")&&datos[c + 1].Equals('(')) || (datos[c - 1].Equals("*") && datos[c + 1].Equals('('))|| (datos[c - 1].Equals("?") && datos[c + 1].Equals('(')))
+                                            {
+                                                grafo += nodo + "->" + (nodo + 1) + " ;";
+                                                nodo++;
+                                            }
+                                            else if (datos[c + 1].Equals('('))
+                                            {
+                                                string nombre = palabra(i+2,c-1,datos);
+                                                grafo += nodo + "->" + (nodo + 1) + " [ label= \"" + nombre + "\"];";//1->2
+                                                nodo++;
+                                            }
+                                        }
+                                        if (datos[c].Equals('*'))
+                                        {
+                                            if (datos[c + 1].Equals('.') || datos[c + 1].Equals('|'))
+                                            {
+                                                string dato = palabra(i + 2, c - 1, datos);
+                                                CerK(dato);
+                                            }
+                                        }
+                                        if (datos[c].Equals('?'))
+                                        {
+                                            if (datos[c + 1].Equals('.') || datos[c + 1].Equals('|'))
+                                            {
+                                                string dato = palabra(i + 2, c - 1, datos);
+                                                cerNeg(dato);
+                                            }
+                                        }
+                                        if (datos[c].Equals('|')) {
+                                            if (datos[c - 1].Equals('+'))
+                                            {
+                                                string dato = palabra(i + 2, c - 2, datos);
+                                                string dato2 = palabra(c + 1, b - 1, datos);
+                                                int aux = nodo;
+                                                grafo += nodo + "->" + (nodo + 1) + "[ label= \"ε \"];";//0-> 1  
+                                                nodo++;
+                                                grafo += aux + "->" + (nodo + 2) + " [ label= \"ε \"];";//0->3
+                                                cerPos(dato);
+                                                aux = nodo;
+                                                nodo++;
+                                                grafo += nodo + "->" + (nodo + 1) + " [ label= \"" + dato2 + "\"];";//3->4
+                                                nodo++;
+                                                grafo += nodo + "->" + (nodo + 1) + " [ label= \"ε \"];";//4->5
+                                                grafo += aux + "->" + (nodo + 1) + " [ label= \"ε \"];";//2->5
+                                                nodo++;
+                                            }
+                                            if (datos[c - 1].Equals('*'))
+                                            {
+                                                string dato = palabra(i + 2, c - 2, datos);
+                                                string dato2 = palabra(c + 1, b - 1, datos);
+                                                int aux = nodo;
+                                                grafo += nodo + "->" + (nodo + 1) + "[ label= \"ε \"];";//0-> 1  
+                                                nodo++;
+                                                grafo += aux + "->" + (nodo + 2) + " [ label= \"ε \"];";//0->3
+                                                CerK(dato);
+                                                aux = nodo;
+                                                nodo++;
+                                                grafo += nodo + "->" + (nodo + 1) + " [ label= \"" + dato2 + "\"];";//3->4
+                                                nodo++;
+                                                grafo += nodo + "->" + (nodo + 1) + " [ label= \"ε \"];";//4->5
+                                                grafo += aux + "->" + (nodo + 1) + " [ label= \"ε \"];";//2->5
+                                                nodo++;
+                                            }
+                                            if (datos[c - 1].Equals('?'))
+                                            {
+                                                string dato = palabra(i + 2, c - 2, datos);
+                                                string dato2 = palabra(c + 1, b - 1, datos);
+                                                int aux = nodo;
+                                                grafo += nodo + "->" + (nodo + 1) + "[ label= \"ε \"];";//0-> 1  
+                                                nodo++;
+                                                grafo += aux + "->" + (nodo + 2) + " [ label= \"ε \"];";//0->3
+                                                cerNeg(dato);
+                                                aux = nodo;
+                                                nodo++;
+                                                grafo += nodo + "->" + (nodo + 1) + " [ label= \"" + dato2 + "\"];";//3->4
+                                                nodo++;
+                                                grafo += nodo + "->" + (nodo + 1) + " [ label= \"ε \"];";//4->5
+                                                grafo += aux + "->" + (nodo + 1) + " [ label= \"ε \"];";//2->5
+                                                nodo++;
+                                            }
+                                        }
+                                    }
                                     bandera = false;
                                     break;
                                 }
@@ -423,77 +502,72 @@ namespace OCL1_PY1
                             {
                                 break;
                             }
-                            else 
+                            else if ((a+1<datos.Length)&& datos[a+1].Equals('|')&&datos[a+2].Equals('(')) 
                             {
-                                for (int e =i+2; e<a;e++) 
+                                string dato = conc(i+1,a,datos);
+                                Console.WriteLine(dato);
+                                string dato2 = conc(a+2, datos.Length-1, datos);
+                                Console.WriteLine(dato2);
+                                int aux = nodo;
+                                grafo += nodo + "->" + (nodo + 1) + "[ label= \"ε \"];";//0-> 1
+                                nodo++;
+                                dibujardot(dato);
+                                grafo += aux + "->" + nodo + " [ label= \"ε \"];";//0->3
+                                aux = nodo-1;
+                                dibujardot(dato2);
+                                grafo += nodo + "->" + (nodo + 1) + " [ label= \"ε \"];";//4->5
+                                grafo += aux + "->" + (nodo + 1) + " [ label= \"ε \"];";//2->5
+                                nodo++;
+                                break;
+                            }
+                            else
+                            {
+
+                                for (int e = i + 2; e < a; e++)
                                 {
                                     if (datos[e].Equals('+'))
                                     {
-                                        grafo += nodo + "->" + (nodo + 1) + ";";//0-> 1              
-                                        nodo++;
-                                        int aux = nodo;
-                                        grafo += nodo + "->" + (nodo + 1) + " [ label= \"ε \"];";//1->2
-                                        nodo++;
-                                        grafo += nodo + "->" + (nodo + 1) + ";";//2->3
-                                        grafo += (nodo+1) + "->" + nodo  + " [ label= \"ε \"];";//3->2
-                                        nodo++;
-                                        grafo += nodo + "->" + (nodo + 1) + " [ label= \"ε \"];";//3->4
-                                        grafo += (nodo + 1) + "->" + aux + " [ label= \"ε \"];";//4->1
-                                        nodo++;
+                                        string dato = palabra(i + 2, e - 1, datos);
+                                        cerPos(dato);
                                     }
                                     else if (datos[e].Equals('.'))
                                     {
-                                        grafo += nodo + "->" + (nodo + 1) + ";";//0-> 1              
-                                        nodo++;
-                                        grafo += nodo + "->" + (nodo + 1) + " ;";//1->2
-                                        nodo++;
+                                        string dato = palabra(i + 2, e - 1, datos);
+                                        string dato2 = palabra(e + 1, a - 1, datos);
+                                        concatenación(dato, dato2);
                                     }
                                     else if (datos[e].Equals('*'))
                                     {
-                                      
-                                        int aux = nodo;
-                                        grafo += nodo + "->" + (nodo + 1) + " [ label= \"ε \"];";//1->2
-                                        nodo++;
-                                        grafo += nodo + "->" + (nodo + 1) + ";";//2->3
-                                        grafo += (nodo + 1) + "->" + nodo + " [ label= \"ε \"];";//3->2
-                                        nodo++;
-                                        grafo += nodo + "->" + (nodo + 1) + " [ label= \"ε \"];";//3->4
-                                        grafo += (nodo + 1) + "->" + aux + " [ label= \"ε \"];";//4->1
-                                        nodo++;
+
+                                        string dato = palabra(i + 2, e - 1, datos);
+                                        CerK(dato);
                                     }
                                     else if (datos[e].Equals('|'))
                                     {
-                                        int aux = nodo;
-                                        grafo += nodo + "->" + (nodo + 1) + "[ label= \"ε \"];";//0-> 1  
-                                        nodo++;
-                                        grafo += aux + "->" + (nodo + 2) + " [ label= \"ε \"];";//0->3
-                                        grafo += nodo + "->" + (nodo + 1) + ";";//1->2
-                                        nodo++;
-                                        aux = nodo;
-                                        nodo++;
-                                        grafo += nodo + "->" + (nodo + 1) + " [ label= \"ε \"];";//3->4
-                                        nodo++;
-                                        grafo += nodo + "->" + (nodo + 1) + " [ label= \"ε \"];";//4->5
-                                        grafo += aux + "->" + (nodo + 1) + " [ label= \"ε \"];";//2->5
-                                        nodo++;
+                                        string dato = palabra(i + 2, e - 1, datos);
+                                        string dato2 = palabra(e + 1, a - 1, datos);
+                                        or(dato, dato2);
                                     }
                                     else if (datos[e].Equals('?'))
                                     {
-                                        int aux = nodo;
-                                        grafo += nodo + "->" + (nodo + 1) + "[ label= \"ε \"];";//0-> 1  
-                                        nodo++;
-                                        grafo += aux + "->" + (nodo + 2) + " [ label= \"ε \"];";//0->3
-                                        grafo += nodo + "->" + (nodo + 1) + ";";//1->2
-                                        nodo++;
-                                        aux = nodo;
-                                        nodo++;
-                                        grafo += nodo + "->" + (nodo + 1) + " [ label= \"ε \"];";//3->4
-                                        nodo++;
-                                        grafo += nodo + "->" + (nodo + 1) + " [ label= \"ε \"];";//4->5
-                                        grafo += aux + "->" + (nodo + 1) + " [ label= \"ε \"];";//2->5
-                                        nodo++;
+                                        string dato = palabra(i + 2, e - 1, datos);
+                                        cerNeg(dato);
                                     }
                                 }
+                            }
+                            if ((a + 1 < datos.Length) && datos[a + 1].Equals('+'))
+                            {
+                                grafo += nodo + "->" + (nodo + 1) + "[ label= \"" + datos + "\"];";//0-> 1              
+                                nodo++;
+                                int aux = nodo;
+                                grafo += nodo + "->" + (nodo + 1) + " [ label= \"ε \"];";//1->2
+                                nodo++;
+                                grafo += nodo + "->" + (nodo + 1) + "[ label= \"" + datos + "\"];";//2->3
+                                grafo += (nodo + 1) + "->" + nodo + " [ label= \"ε \"];";//3->2
+                                nodo++;
+                                grafo += nodo + "->" + (nodo + 1) + " [ label= \"ε \"];";//3->4
+                                grafo += (nodo + 1) + "->" + aux + " [ label= \"ε \"];";//4->1
+                                nodo++;
                             }
                         }
                     }
@@ -501,22 +575,129 @@ namespace OCL1_PY1
             }
         }
 
-     
+        private void concatenación (string datos, string dato2)
+        {//.
+            grafo += nodo + "->" + (nodo + 1) + "[ label= \"" + datos + "\"];";//0-> 1              
+            nodo++;
+            grafo += nodo + "->" + (nodo + 1) + " [ label= \"" + dato2 + "\"];";//1->2
+            nodo++;
+        }
+
+        private void or (string datos, string dato2)
+        {//|
+            int aux = nodo;
+            grafo += nodo + "->" + (nodo + 1) + "[ label= \"ε \"];";//0-> 1  
+            nodo++;
+            grafo += aux + "->" + (nodo + 2) + " [ label= \"ε \"];";//0->3
+            grafo += nodo + "->" + (nodo + 1) + "[ label= \"" + datos + "\"];";//1->2
+            nodo++;
+            aux = nodo;
+            nodo++;
+            grafo += nodo + "->" + (nodo + 1) + " [ label= \""+dato2+ "\"];";//3->4
+            nodo++;
+            grafo += nodo + "->" + (nodo + 1) + " [ label= \"ε \"];";//4->5
+            grafo += aux + "->" + (nodo + 1) + " [ label= \"ε \"];";//2->5
+            nodo++;
+        }
+
+        private void CerK(string datos)
+        {//*
+            int aux = nodo;
+            grafo += nodo + "->" + (nodo + 1) + " [ label= \"ε \"];";//1->2
+            nodo++;
+            grafo += nodo + "->" + (nodo + 1) + "[ label= \"" + datos + "\"];";//2->3
+            grafo += (nodo + 1) + "->" + nodo + " [ label= \"ε \"];";//3->2
+            nodo++;
+            grafo += nodo + "->" + (nodo + 1) + " [ label= \"ε \"];";//3->4
+            grafo += (nodo + 1) + "->" + aux + " [ label= \"ε \"];";//4->1
+            nodo++;
+        }
+
+        private void cerPos(string datos)
+        {//+
+            grafo += nodo + "->" + (nodo + 1) + "[ label= \"" + datos + "\"];";//0-> 1              
+            nodo++;
+            int aux = nodo;
+            grafo += nodo + "->" + (nodo + 1) + " [ label= \"ε \"];";//1->2
+            nodo++;
+            grafo += nodo + "->" + (nodo + 1) + "[ label= \"" + datos+ "\"];";//2->3
+            grafo += (nodo + 1) + "->" + nodo + " [ label= \"ε \"];";//3->2
+            nodo++;
+            grafo += nodo + "->" + (nodo + 1) + " [ label= \"ε \"];";//3->4
+            grafo += (nodo + 1) + "->" + aux + " [ label= \"ε \"];";//4->1
+            nodo++;
+        }
+
+        private void cerNeg(string datos)
+        {//?
+            int aux = nodo;
+            grafo += nodo + "->" + (nodo + 1) + "[ label= \"ε \"];";//0-> 1  
+            nodo++;
+            grafo += aux + "->" + (nodo + 2) + " [ label= \"ε \"];";//0->3
+            grafo += nodo + "->" + (nodo + 1) + "[ label= \"" + datos + "\"];";//1->2
+            nodo++;
+            aux = nodo;
+            nodo++;
+            grafo += nodo + "->" + (nodo + 1) + " [ label= \"ε \"];";//3->4
+            nodo++;
+            grafo += nodo + "->" + (nodo + 1) + " [ label= \"ε \"];";//4->5
+            grafo += aux + "->" + (nodo + 1) + " [ label= \"ε \"];";//2->5
+            nodo++;
+        }
+
+        private string conc(int i, int f, string palabra)
+        {
+            String devolver = "";
+            for (int a = i; a <= f; a++)
+            {
+                devolver += palabra[a];
+            }
+            return devolver;
+        }
+        private String palabra(int i, int f, String palabra)
+        {
+            String devolver = "";
+            for (int a = f; a>=i;a--)
+            {
+                if (isOperator(Char.ToString(palabra[a])))
+                {
+                    break;
+                }
+                devolver += palabra[a];
+            }
+            return devolver;
+        }
+        private String palabra2(int i, int f, String palabra)
+        {
+            String devolver = "";
+            for (int a = i; a < f; a++)
+            {
+                if (isOperator(Char.ToString(palabra[a])))
+                {
+                    break;
+                }
+                devolver += palabra[a];
+            }
+            return devolver;
+        }
         private static Image generarImagen(String grafico)
         {
             
           //  String graph = DOT();
+
          
             
                
                 WINGRAPHVIZLib.DOT dot = new WINGRAPHVIZLib.DOT();
+                
                 WINGRAPHVIZLib.BinaryImage img = dot.ToJPEG(grafico);
                 byte[] imageBytes = Convert.FromBase64String(img.ToBase64String());
                 MemoryStream ms = new MemoryStream(imageBytes, 0, imageBytes.Length);
                 ms.Write(imageBytes, 0, imageBytes.Length);
                 Image image = Image.FromStream(ms, true);
-                return image;
-                //img.Save(@"C:\\Users\PC\\Desktop\\thompson.jpg");
+                img.Save(@"C:\\Users\PC\\Desktop\\thompson.jpg");
+            return image;
+                
           
             
            
